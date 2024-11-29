@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'crud.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cc',
+        'NAME': 'invantory2',
         'USER': 'mahadi',
         'PASSWORD': '22322232',
         'HOST': 'localhost',
