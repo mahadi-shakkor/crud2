@@ -44,6 +44,9 @@
 </head>
 <body>
     <h2>User Registration Form</h2>
+    {% if user.userid %}
+    <h2>id {{ user.userid }}</h2>
+    {% endif %}
 
     <!-- Display error or success message -->
     {% if text %}
@@ -68,9 +71,17 @@
 
         <label for="usertype">User Type:</label>
         <select id="usertype" name="usertype">
-            <option value="admin" {% if request.POST.usertype == "admin" %}selected{% endif %}>Admin</option>
+            <option value="admin" {% if request.POST.usertype == "admin" %}selected{% endif %}>Neutroshomist</option>
+            <option value="customer" {% if request.POST.usertype == "customer" %}selected{% endif %}>Agricultural Officer</option>
+            <option value="vendor" {% if request.POST.usertype == "vendor" %}selected{% endif %}>Retailer</option>
+            <option value="distributor" {% if request.POST.usertype == "distributor" %}selected{% endif %}>Distributor Company</option>
             <option value="customer" {% if request.POST.usertype == "customer" %}selected{% endif %}>Customer</option>
+            <option value="warehouse_manager" {% if request.POST.usertype == "warehouse_manager" %}selected{% endif %}>Warehouse Manager</option>
+            <option value="farmer" {% if request.POST.usertype == "farmer" %}selected{% endif %}>Farmer</option>
+            <option value="supplier" {% if request.POST.usertype == "supplier" %}selected{% endif %}>Supplier</option>
             <option value="vendor" {% if request.POST.usertype == "vendor" %}selected{% endif %}>Vendor</option>
+
+
         </select><br><br>
 
         <label for="street">Street:</label>
@@ -91,8 +102,9 @@
         <label for="longitude">Longitude:</label>
         <input type="text" id="id_longitude" name="longitude" readonly><br><br>
 
-        <label for="altitude">Altitude:</label>
-        <input type="text" id="id_altitude" name="altitude" readonly><br><br>
+        <!-- Allow user to input altitude -->
+        <label for="altitude">Altitude (Optional):</label>
+        <input type="text" id="id_altitude" name="altitude" ><br><br>
 
         <label for="timezone">Timezone:</label>
         <input type="text" id="id_timezone" name="timezone" readonly><br><br>

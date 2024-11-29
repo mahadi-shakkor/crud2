@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import User, Location
 
 def user_signup_form(request):
     if request.method == 'POST':
@@ -48,14 +49,40 @@ def user_signup_form(request):
         # If there are errors, return the form with error messages
         if errors:
             return render(request, 'user_signup_form.html', {"text": " ".join(errors)})
+        
+        # Create Location object and save it to the database
+        try:
+            location = Location.objects.create(
+                latitude=latitude,
+                longitude=longitude,
+                altitude=altitude,
+                timezone=timezone,
+                street=street,
+                city=city,
+                state=state,
+                country=country
+            )
+        except Exception as e:
+            # If there is an error with saving the location, return an error message
+            return render(request, 'user_signup_form.html', {"text": f"Error saving location: {str(e)}"})
 
-        # If no errors, proceed with form processing (e.g., saving to database)
-        # Example: Saving user and location data to database (you can add your model logic here)
-        # user = User.objects.create(name=name, email=email, password=password, ...)
-        # location = Location.objects.create(latitude=latitude, longitude=longitude, altitude=altitude, timezone=timezone, ...)
+        # Create User object and save it to the database
+        try:
+            user = User.objects.create(
+                name=name,
+                email=email,
+                password=password,
+                usercontactnumber=usercontactnumber,
+                usertype=usertype,
+                location=location  # Associate the user with the created location
+            )
 
-        # Render a success message with the form data
-        return render(request, 'user_signup_form.html', {"text": "Form submitted successfully!"})
+        except Exception as e:
+            # If there is an error with saving the user, return an error message
+            return render(request, 'user_signup_form.html', {"text": f"Error saving user: {str(e)}"})
+
+        # If everything is successful, return a success message
+        return render(request, 'user_signup_form.html', {"text": "Form submitted successfully!","user":user})
 
     # If the form is not submitted (GET request), just render the empty form page
     return render(request, 'user_signup_form.html')

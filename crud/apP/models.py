@@ -546,7 +546,7 @@ class Supplier(models.Model):
 class User(models.Model):
     userid = models.AutoField(db_column='USERID', primary_key=True)  # Field name made lowercase.
     name = models.CharField(max_length=255)
-    email = models.CharField(db_column='Email', unique=True, max_length=255)  # Field name made lowercase.
+    email = models.CharField(db_column='Email', max_length=255)  # Field name made lowercase.
     password = models.CharField(max_length=255)
     location = models.ForeignKey(Location, models.DO_NOTHING, db_column='Location_ID', blank=True, null=True)  # Field name made lowercase.
     usercontactnumber = models.CharField(max_length=15, blank=True, null=True)
@@ -555,6 +555,14 @@ class User(models.Model):
     class Meta:
         managed = False
         db_table = 'user'
+
+
+class Vendor(models.Model):
+    vid = models.OneToOneField(User, models.DO_NOTHING, db_column='VID', primary_key=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'vendor'
 
 
 class Wirehouse(models.Model):
