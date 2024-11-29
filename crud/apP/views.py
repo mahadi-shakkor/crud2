@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import User, Location,WirehouseManager,Retailer,Farmer,DistributorCompany,Customer,AgriculturalOfficer,Nutritionists,Supplier
+from .models import User, Location,WirehouseManager,Retailer,Farmer,DistributorCompany,Customer,AgriculturalOfficer,Nutritionists,Supplier,Vendor
 
 def user_signup_form(request):
     if request.method == 'POST':
@@ -77,10 +77,33 @@ def user_signup_form(request):
                 usertype=usertype,
                 location=location  # Associate the user with the created location
             )
-            if user.usertype=="Neutroshomist":
-                Nutritionists.objects.create(user=user)
-                
-# >Neutroshomist</option>
+
+
+
+
+
+            if user.usertype == "nutritionist":
+                Nutritionists.objects.create(nid=user)  # Create a Nutritionist instance linked to the user
+            elif user.usertype == "warehouse_manager":
+                WirehouseManager.objects.create(wid=user)  # Create a WarehouseManager instance linked to the user
+            elif user.usertype == "retailer":
+                Retailer.objects.create(rid=user)  # Create a Retailer instance linked to the user
+            elif user.usertype == "farmer":
+                Farmer.objects.create(fid=user)  # Create a Farmer instance linked to the user
+            elif user.usertype == "distributor":
+                DistributorCompany.objects.create(did=user)  # Create a Distributor instance linked to the user
+            elif user.usertype == "customer":
+                Customer.objects.create(cid=user)  # Create a Customer instance linked to the user
+            elif user.usertype == "agricultural_officer":
+                AgriculturalOfficer.objects.create(aid=user)  # Create an AgriculturalOfficer instance linked to the user
+            elif user.usertype == "supplier":
+                Supplier.objects.create(sid=user)  # Create a Supplier instance linked to the user
+            elif user.usertype == "vendor":
+                Vendor.objects.create(user=user)  # Create a Vendor instance linked to the user
+            else:
+                # Handle case where user type is not recognized
+                print(f"User type '{user.usertype}' not recognized.")
+    #  <option value="neutroshomist" {% if request.POST.usertype == "neutroshomist" %}selected{% endif %}>Neutroshomist</option>
 #             <option value="customer" {% if request.POST.usertype == "customer" %}selected{% endif %}>Agricultural Officer</option>
 #             <option value="vendor" {% if request.POST.usertype == "vendor" %}selected{% endif %}>Retailer</option>
 #             <option value="distributor" {% if request.POST.usertype == "distributor" %}selected{% endif %}>Distributor Company</option>
@@ -88,7 +111,12 @@ def user_signup_form(request):
 #             <option value="warehouse_manager" {% if request.POST.usertype == "warehouse_manager" %}selected{% endif %}>Warehouse Manager</option>
 #             <option value="farmer" {% if request.POST.usertype == "farmer" %}selected{% endif %}>Farmer</option>
 #             <option value="supplier" {% if request.POST.usertype == "supplier" %}selected{% endif %}>Supplier</option>
-#             <option value="vendor" {% if request.POST.usertype == "vendor" %}selected{% endif %}>Vendor<
+#             <option value="vendor" {% if request.POST.usertype == "vendor" %}selected{% endif %}>Vendor</option>
+
+            
+                    
+        
+
         except Exception as e:
             # If there is an error with saving the user, return an error message
             return render(request, 'user_signup_form.html', {"text": f"Error saving user: {str(e)}"})

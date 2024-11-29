@@ -71,9 +71,9 @@
 
         <label for="usertype">User Type:</label>
         <select id="usertype" name="usertype">
-            <option value="admin" {% if request.POST.usertype == "admin" %}selected{% endif %}>Neutroshomist</option>
-            <option value="customer" {% if request.POST.usertype == "customer" %}selected{% endif %}>Agricultural Officer</option>
-            <option value="vendor" {% if request.POST.usertype == "vendor" %}selected{% endif %}>Retailer</option>
+            <option value="neutroshomist" {% if request.POST.usertype == "neutroshomist" %}selected{% endif %}>Neutroshomist</option>
+            <option value="agricultural_officer" {% if request.POST.usertype == "agricultural_officer" %}selected{% endif %}>Agricultural Officer</option>
+            <option value="retailer" {% if request.POST.usertype == "retailer" %}selected{% endif %}>Retailer</option>
             <option value="distributor" {% if request.POST.usertype == "distributor" %}selected{% endif %}>Distributor Company</option>
             <option value="customer" {% if request.POST.usertype == "customer" %}selected{% endif %}>Customer</option>
             <option value="warehouse_manager" {% if request.POST.usertype == "warehouse_manager" %}selected{% endif %}>Warehouse Manager</option>
