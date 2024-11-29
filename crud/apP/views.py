@@ -7,6 +7,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import User
 
+
+def dashboard2(request):
+    return render(request,"dashboard2.html")
+
 def signup2(request):
     if request.method == 'POST':
         # Retrieve user input from the form
@@ -18,7 +22,7 @@ def signup2(request):
             user = User.objects.get(userid=user_id)  # Assuming `id` is either email or user ID
             if user.password == password:
                 # If password matches, return success message
-                return render(request, 'signup2.html', {"text": "Login successful!"})
+                return render(request, 'dashboard2.html', {"text": "Login successful!","user":user})
             else:
                 # If password does not match, show an error message
                 return render(request, 'signup2.html', {"text": "Incorrect password!"})
