@@ -6,7 +6,8 @@ from .models import User, Location,WirehouseManager,Retailer,Farmer,DistributorC
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import User
-
+def add_batch_to_invantory(request):
+    return render(request,"add_batch_to_invantory.html")
 
 def dashboard2(request):
     return render(request,"dashboard2.html")
