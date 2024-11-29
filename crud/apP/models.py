@@ -451,6 +451,9 @@ class Product(models.Model):
         managed = False
         db_table = 'product'
 
+    def __str__(self):
+        return f"ID: {self.product_id}  \n Product Name: {self.product_name}"
+
 
 class PurchaseRequest(models.Model):
     pid = models.AutoField(db_column='PID', primary_key=True)  # Field name made lowercase.
