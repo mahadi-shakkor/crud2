@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import User, Location
+from .models import User, Location,WirehouseManager,Retailer,Farmer,DistributorCompany,Customer,AgriculturalOfficer,Nutritionists,Supplier
 
 def user_signup_form(request):
     if request.method == 'POST':
@@ -62,6 +62,7 @@ def user_signup_form(request):
                 state=state,
                 country=country
             )
+            
         except Exception as e:
             # If there is an error with saving the location, return an error message
             return render(request, 'user_signup_form.html', {"text": f"Error saving location: {str(e)}"})
@@ -76,7 +77,18 @@ def user_signup_form(request):
                 usertype=usertype,
                 location=location  # Associate the user with the created location
             )
-
+            if user.usertype=="Neutroshomist":
+                Nutritionists.objects.create(user=user)
+                
+# >Neutroshomist</option>
+#             <option value="customer" {% if request.POST.usertype == "customer" %}selected{% endif %}>Agricultural Officer</option>
+#             <option value="vendor" {% if request.POST.usertype == "vendor" %}selected{% endif %}>Retailer</option>
+#             <option value="distributor" {% if request.POST.usertype == "distributor" %}selected{% endif %}>Distributor Company</option>
+#             <option value="customer" {% if request.POST.usertype == "customer" %}selected{% endif %}>Customer</option>
+#             <option value="warehouse_manager" {% if request.POST.usertype == "warehouse_manager" %}selected{% endif %}>Warehouse Manager</option>
+#             <option value="farmer" {% if request.POST.usertype == "farmer" %}selected{% endif %}>Farmer</option>
+#             <option value="supplier" {% if request.POST.usertype == "supplier" %}selected{% endif %}>Supplier</option>
+#             <option value="vendor" {% if request.POST.usertype == "vendor" %}selected{% endif %}>Vendor<
         except Exception as e:
             # If there is an error with saving the user, return an error message
             return render(request, 'user_signup_form.html', {"text": f"Error saving user: {str(e)}"})
