@@ -3,8 +3,32 @@ from django.http import HttpResponse
 from .models import User, Location,WirehouseManager,Retailer,Farmer,DistributorCompany,Customer,AgriculturalOfficer,Nutritionists,Supplier,Vendor
 
 
+from django.shortcuts import render
+from django.http import HttpResponse
+from .models import User
+
 def signup2(request):
-    return render(request,"signup2.html")
+    if request.method == 'POST':
+        # Retrieve user input from the form
+        user_id = request.POST.get('id')
+        password = request.POST.get('password')
+
+        # Simple validation: Check if user exists
+        try:
+            user = User.objects.get(userid=user_id)  # Assuming `id` is either email or user ID
+            if user.password == password:
+                # If password matches, return success message
+                return render(request, 'signup2.html', {"text": "Login successful!"})
+            else:
+                # If password does not match, show an error message
+                return render(request, 'signup2.html', {"text": "Incorrect password!"})
+        except User.DoesNotExist:
+            # If the user does not exist, show an error message
+            return render(request, 'signup2.html', {"text": "User not found!"})
+
+    # If the form is not submitted, just render the form page
+    return render(request, 'signup2.html')
+
 
 
 def user_signup_form(request):
