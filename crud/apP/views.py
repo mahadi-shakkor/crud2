@@ -2,6 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import User, Location,WirehouseManager,Retailer,Farmer,DistributorCompany,Customer,AgriculturalOfficer,Nutritionists,Supplier,Vendor
 
+
+def signup2(request):
+    return render(request,"signup2.html")
+
+
 def user_signup_form(request):
     if request.method == 'POST':
         # Get the user registration data from the form
