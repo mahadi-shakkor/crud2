@@ -48,8 +48,41 @@
   <br><br>
 
 
+  <label for="datetime">Current Date and Time:</label>
+  <input type="text" id="datetime" name="datetime" readonly>
+  <br><br>
+
+
+  <label for="u">Select Unit</label>
+  <select name="u" id="product">
+      {% for p in product %}
+          <option value="">{{ p.product_name }}</option>
+      {% endfor %}
+  </select>
+
 
         <button type="submit">Submit</button>
     </form>
+
+
+    <script>
+        function updateDateTime() {
+            var now = new Date();
+            var date = now.toLocaleDateString();  // Get current date
+            var time = now.toLocaleTimeString();  // Get current time
+
+            // Combine date and time in the format you prefer
+            var dateTime = date + ' ' + time;
+
+            // Update the input field with the current date and time
+            document.getElementById('datetime').value = dateTime;
+        }
+
+        // Call updateDateTime every 1000 milliseconds (1 second) to keep the time updated
+        setInterval(updateDateTime, 1000);
+
+        // Initial call to set the date and time when the page loads
+        updateDateTime();
+    </script>
 </body>
 </html>
