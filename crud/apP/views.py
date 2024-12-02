@@ -7,7 +7,12 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import User
 def add_batch_to_invantory(request):
-    user = request.GET.get('userr')
+    userid = request.GET.get('userid')
+    try:
+        user = User.objects.get(userid=userid)
+    except:
+        return HttpResponse("user not found")
+
 
 
 
