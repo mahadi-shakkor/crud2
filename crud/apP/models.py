@@ -97,9 +97,9 @@ class Batch(models.Model):
     optimum_temperature_to_store = models.DecimalField(db_column='Optimum_temperature_to_store', max_digits=5, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     optimum_humidity_to_store = models.DecimalField(db_column='Optimum_humidity_to_store', max_digits=5, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     product_unit_price = models.DecimalField(db_column='Product_Unit_price', max_digits=10, decimal_places=2)  # Field name made lowercase.
-    kg = models.DecimalField(db_column='KG', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    ton = models.DecimalField(db_column='TON', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    mon = models.DecimalField(db_column='MON', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    kg = models.CharField(db_column='KG', max_length=2, blank=True, null=True)  # Field name made lowercase.
+    ton = models.CharField(db_column='TON', max_length=3, blank=True, null=True)  # Field name made lowercase.
+    mon = models.CharField(db_column='MON', max_length=3, blank=True, null=True)  # Field name made lowercase.
     batch_description = models.TextField(db_column='Batch_Description', blank=True, null=True)  # Field name made lowercase.
     date_time_batch_created = models.DateTimeField(db_column='Date_Time_Batch_Created')  # Field name made lowercase.
     user = models.ForeignKey('User', models.DO_NOTHING, db_column='User_ID', blank=True, null=True)  # Field name made lowercase.
@@ -450,9 +450,6 @@ class Product(models.Model):
     class Meta:
         managed = False
         db_table = 'product'
-
-    def __str__(self):
-        return f"ID: {self.product_id}  \n Product Name: {self.product_name}"
 
 
 class PurchaseRequest(models.Model):
