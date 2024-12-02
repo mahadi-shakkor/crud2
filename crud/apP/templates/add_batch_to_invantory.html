@@ -6,11 +6,31 @@
     <title>Document</title>
 </head>
 <body>
+    <h1>add to inventory here {{ user.name }} {{ user.userid }} <br> userlocation_City: {{ location.city }}</h1>
 
+    <form method="post">
+        {% csrf_token %}
+        
+        <label for="product">Select Product:</label>
+        <select name="product" id="product">
+            {% for p in product %}
+                <option value="{{ p.id }}">{{ p.product_name }}</option>
+            {% endfor %}
+        </select>
 
+        <br><br>
 
+        <!-- Use checkboxes for the SELL and STORE actions -->
+        <label>
+            <input type="checkbox" name="sell" value="1"> SELL
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" name="stor" value="1"> STORE
+        </label>
+        <br>
 
-    <h1>add to invantory here {{user.name}} {{user.userid}}</h1>
-    
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>

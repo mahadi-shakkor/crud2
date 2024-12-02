@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import User, Location,WirehouseManager,Retailer,Farmer,DistributorCompany,Customer,AgriculturalOfficer,Nutritionists,Supplier,Vendor
+from .models import User,Product, Location,WirehouseManager,Retailer,Farmer,DistributorCompany,Customer,AgriculturalOfficer,Nutritionists,Supplier,Vendor
 
 
 from django.shortcuts import render
@@ -10,6 +10,8 @@ def add_batch_to_invantory(request):
     userid = request.GET.get('userid')
     try:
         user = User.objects.get(userid=userid)
+        location=user.location
+        product=Product.objects.all()
     except:
         return HttpResponse("user not found")
 
@@ -17,7 +19,7 @@ def add_batch_to_invantory(request):
 
 
 
-    return render(request,"add_batch_to_invantory.html",{"user":user})
+    return render(request,"add_batch_to_invantory.html",{"user":user,"location":location,"product":product})
 
 def dashboard2(request):
     return render(request,"dashboard2.html")
