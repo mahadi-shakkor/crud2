@@ -55,17 +55,112 @@
 
   <label for="u">Select Unit</label>
   <select name="u" id="product">
-      {% for p in product %}
-          <option value="">{{ p.product_name }}</option>
-      {% endfor %}
+      
+          <option value="KG">KG</option>
+          <option value="KG">TON</option>
+          <option value="KG">MON</option>
+      
   </select>
+  <br>
+  <br>
 
 
+  <label for="float_value">Enter Per Unit Price</label>
+  <input type="number" id="float_value" name="float_value" step="0.01" placeholder="e.g. 10.5" required>
+  <br><br>
+
+
+
+  <label for="description">Description:</label>
+  <textarea id="description" name="description" rows="7" cols="50" placeholder="Enter your description here..." required></textarea>
+  <br><br>
+
+  <label for="product_amount">Enter Product Amount per Batch:</label>
+  <input type="number" id="product_amount" name="product_amount" step="0.01" placeholder="e.g. 10.5" required>
+  <br><br>
+
+
+        <label for=""><b>Batch location Details:</b></label><br><br>
+        <label for="street">Street:</label>
+        <input type="text" id="street" name="street" value="{{ request.POST.street }}"><br><br>
+
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" value="{{ request.POST.city }}"><br><br>
+
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state" value="{{ request.POST.state }}"><br><br>
+
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" value="{{ request.POST.country }}"><br><br>
+
+        <label for="latitude">Latitude:</label>
+        <input type="text" id="id_latitude" name="latitude" readonly><br><br>
+
+        <label for="longitude">Longitude:</label>
+        <input type="text" id="id_longitude" name="longitude" readonly><br><br>
+
+        <!-- Allow user to input altitude -->
+        <label for="altitude">Altitude (Optional):</label>
+        <input type="text" id="id_altitude" name="altitude" ><br><br>
+
+        <label for="timezone">Timezone:</label>
+        <input type="text" id="id_timezone" name="timezone" readonly><br><br>
+
+
+
+
+
+  <br>
+
+
+
+
+
+
+
+
+            <br><br>
         <button type="submit">Submit</button>
     </form>
 
 
     <script>
+
+    function getCurrentLocationAndTimezone() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                // Get the latitude and longitude from geolocation and round them to 3 decimal places
+                var latitude = position.coords.latitude.toFixed(3);
+                var longitude = position.coords.longitude.toFixed(3);
+
+                // Set the latitude and longitude fields in the form
+                document.getElementById("id_latitude").value = latitude;
+                document.getElementById("id_longitude").value = longitude;
+
+                // Optional: Get the altitude (if available) and round to 3 decimal places
+                var altitude = position.coords.altitude;
+                if (altitude !== null) {
+                    document.getElementById("id_altitude").value = altitude.toFixed(3);
+                } else {
+                    document.getElementById("id_altitude").value = ''; // Set to empty or default value
+                }
+
+                // Get the user's current timezone using the Intl API
+                var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                document.getElementById("id_timezone").value = timezone;
+
+            }, function() {
+                alert("Geolocation service failed.");
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    // Call the function when the page loads
+    window.onload = function() {
+        getCurrentLocationAndTimezone();
+    }
         function updateDateTime() {
             var now = new Date();
             var date = now.toLocaleDateString();  // Get current date
