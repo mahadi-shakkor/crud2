@@ -8,7 +8,7 @@
 <body>
     {% if text %}
     <p style="color: red;">{{ text }}</p>
-{% endif %}
+    {% endif %}
     <h1>add to inventory here {{ user.name }} {{ user.userid }} <br> userlocation_City: {{ location.city }}</h1>
 
     <br>
@@ -79,7 +79,7 @@
 
 
         <label for="description">Description:</label>
-        <textarea id="description" name="description" rows="7" cols="50" placeholder="Enter your description here..." required></textarea>
+        <textarea id="description"  name="description" rows="7" cols="50" placeholder="Enter your description here..." required ></textarea>
         <br><br>
 
         <label for="product_amount">Enter Product Amount per Batch:</label>
@@ -88,6 +88,15 @@
 
 
         <label for=""><b>Batch location Details:</b></label><br><br>
+        <label for="street">Use user Location To Batch Location</label>
+        <input type="checkbox" id="street" name="Set_my_L_batch_L" value="{{ request.POST.Set_my_L_batch_L }}"><br><br>
+
+
+
+
+
+
+
         <label for="street">Street:</label>
         <input type="text" id="street" name="street" value="{{ request.POST.street }}"><br><br>
 
@@ -108,7 +117,7 @@
 
         <!-- Allow user to input altitude -->
         <label for="altitude">Altitude (Optional):</label>
-        <input type="text" id="id_altitude" name="altitude" ><br><br>
+        <input type="text" id="id_altitude" name="altitude" value="null" ><br><br>
 
         <label for="timezone">Timezone:</label>
         <input type="text" id="id_timezone" name="timezone" readonly><br><br>

@@ -7,6 +7,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import User
 def add_batch_to_invantory(request):
+    userid = request.GET.get('userid')
+    user = User.objects.get(userid=userid)
+    location1=user.location
+    product=Product.objects.all()
+
+
+
 
 
 
@@ -29,7 +36,67 @@ def add_batch_to_invantory(request):
       # User foreign key
     # product=product 
     )
-    return render(request, 'add_batch_to_invantory.html', {"text": "New batch added"})
+
+    print()
+    if request.method == "POST":
+        # Collect data from the POST request
+        product_id = request.POST.get("product")
+        sell = request.POST.get("sell")
+        stor = request.POST.get("stor")
+        temperature = request.POST.get("temperature")
+        humidity = request.POST.get("humidity")
+        batch_count = request.POST.get("c")
+        datetime_value = request.POST.get("datetime")
+        unit = request.POST.get("u")
+        per_unit_price = request.POST.get("float_value")
+        description = request.POST.get("description")
+        product_amount = request.POST.get("product_amount")
+        street = request.POST.get("street")
+        city = request.POST.get("city")
+        state = request.POST.get("state")
+        country = request.POST.get("country")
+        latitude = request.POST.get("latitude")
+        longitude = request.POST.get("longitude")
+        altitude = request.POST.get("altitude")
+        timezone = request.POST.get("timezone")
+        if altitude=='':
+            altitude=10
+        # print("Form data received:")
+        # print(f"Product ID: {product_id}")
+        # print(f"Sell: {sell}")
+        # print(f"Store: {stor}")
+        # print(f"Temperature: {temperature}")
+        # print(f"Humidity: {humidity}")
+        # print(f"Batch count: {batch_count}")
+        # print(f"DateTime: {datetime_value}")
+        # print(f"Unit: {unit}")
+        # print(f"Per unit price: {per_unit_price}")
+        # print(f"Description: {description}")
+        # print(f"Product amount per batch: {product_amount}")
+        # print(f"Location: {street}, {city}, {state}, {country}")
+        # print(f"Latitude: {latitude}")
+        # print(f"Longitude: {longitude}")
+        print(f"Altitude: {altitude}")
+        # print(f"Timezone: {timezone}")
+        location = Location.objects.create(
+                latitude=latitude,
+                longitude=longitude,
+                altitude=altitude,
+                timezone=timezone,
+                street=street,
+                city=city,
+                state=state,
+                country=country      
+                  )
+        print(location.city)
+
+
+
+        return render(request, 'add_batch_to_invantory.html', {"text": "New batch added","product":product,"location":location1})
+
+
+
+    return render(request, 'add_batch_to_invantory.html', {"text": "New batch added","product":product,"location":location1})
 # --------------------------------------------------====================================================
 
 
