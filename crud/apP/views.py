@@ -60,10 +60,10 @@ def add_batch_to_invantory(request):
         altitude = request.POST.get("altitude")
         timezone = request.POST.get("timezone")
         Set_my_L_batch_L = request.POST.get("Set_my_L_batch_L")
-        if(Set_my_L_batch_L):
-            print("chacked")
-        else:
-            print("not chacked")    
+        # if(Set_my_L_batch_L):
+        #     print("chacked")
+        # else:
+        #     print("not chacked")    
         if altitude=='':
             altitude=10
         # print("Form data received:")
@@ -83,7 +83,15 @@ def add_batch_to_invantory(request):
         # print(f"Longitude: {longitude}")
         print(f"Altitude: {altitude}")
         # print(f"Timezone: {timezone}")
-        location = Location.objects.create(
+
+        
+        
+        if(Set_my_L_batch_L):           
+            location=location1
+            
+        else:
+
+            location = Location.objects.create(
                 latitude=latitude,
                 longitude=longitude,
                 altitude=altitude,
@@ -93,6 +101,10 @@ def add_batch_to_invantory(request):
                 state=state,
                 country=country      
                   )
+            
+
+
+            # print("chacked")
         print({location.city})
         print({user.name})
 
