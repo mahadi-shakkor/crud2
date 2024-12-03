@@ -17,27 +17,9 @@ def add_batch_to_invantory(request):
 
 
 
-# --------------------------------------------========================================================
-    Batch.objects.create(
-    # location=location,  
-    # Location foreign key               
-    product_amount=100.00,  # Product Amount
-    sell=True,  # SELL as True (1)
-    store=True,  # STORE as True (1)
-    optimum_temperature_to_store=25.00,  # Optimum Temperature
-    optimum_humidity_to_store=60.00,  # Optimum Humidity
-    product_unit_price=15.50,  # Product Unit Price
-    kg='KG',  # Example Unit for KG (can be None or another unit if needed)
-    ton='TON',  # Example Unit for TON (can be None or another unit if needed)
-    mon='MON',  # Example Unit for MON (can be None or another unit if needed)
-    batch_description='Batch description text',  # Description of the batch
-    date_time_batch_created=datetime.now(),  # Current datetime
-    # user=user, 
-      # User foreign key
-    # product=product 
-    )
 
-    print()
+    # print()
+    
     if request.method == "POST":
         # Collect data from the POST request
         product_id = request.POST.get("product")
@@ -60,12 +42,35 @@ def add_batch_to_invantory(request):
         altitude = request.POST.get("altitude")
         timezone = request.POST.get("timezone")
         Set_my_L_batch_L = request.POST.get("Set_my_L_batch_L")
+        KG=0
+        TON=0
+        MON=0
+        if (unit=="KG"):
+            KG=1
+        elif(unit=="TON"):
+            TON=1
+        else:
+            MON=1       
+
+        if (sell):
+            sell=1
+        else:
+            sell=0
+        if (stor):
+            stor=1
+        else:
+            stor=0    
+
+
         # if(Set_my_L_batch_L):
         #     print("chacked")
         # else:
         #     print("not chacked")    
         if altitude=='':
             altitude=10
+        # print(product_id)   
+        p1 = Product.objects.get(product_id=product_id) 
+        # print(p1.product_id)
         # print("Form data received:")
         # print(f"Product ID: {product_id}")
         # print(f"Sell: {sell}")
@@ -81,7 +86,7 @@ def add_batch_to_invantory(request):
         # print(f"Location: {street}, {city}, {state}, {country}")
         # print(f"Latitude: {latitude}")
         # print(f"Longitude: {longitude}")
-        print(f"Altitude: {altitude}")
+        # print(f"Altitude: {altitude}")
         # print(f"Timezone: {timezone}")
 
         
@@ -105,8 +110,31 @@ def add_batch_to_invantory(request):
 
 
             # print("chacked")
-        print({location.city})
-        print({user.name})
+        # print({location.city})
+        # print({user.name})
+        
+# --------------------------------------------========================================================
+        Batch.objects.create(
+        location=location,  
+        # Location foreign key               
+        product_amount=product_amount,  # Product Amount
+        sell=sell,  # SELL as True (1)
+        store=stor,  # STORE as True (1)
+        optimum_temperature_to_store=temperature,  # Optimum Temperature
+        optimum_humidity_to_store=humidity,  # Optimum Humidity
+        product_unit_price=per_unit_price,  # Product Unit Price
+        kg=KG,  # Example Unit for KG (can be None or another unit if needed)
+        ton=TON,  # Example Unit for TON (can be None or another unit if needed)
+        mon=MON,  # Example Unit for MON (can be None or another unit if needed)
+        batch_description=description,  # Description of the batch
+        date_time_batch_created=datetime.now(),  # Current datetime
+        # user=user, 
+        # User foreign key
+        # product=product 
+        )
+
+        
+
 
 
 
