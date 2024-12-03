@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import User,Product, Location,WirehouseManager,Retailer,Farmer,DistributorCompany,Customer,AgriculturalOfficer,Nutritionists,Supplier,Vendor
+from .models import Batch,User,Product, Location,WirehouseManager,Retailer,Farmer,DistributorCompany,Customer,AgriculturalOfficer,Nutritionists,Supplier,Vendor
 
 
 from django.shortcuts import render
@@ -14,6 +14,107 @@ def add_batch_to_invantory(request):
         product=Product.objects.all()
     except:
         return HttpResponse("user not found")
+    if request.method == "POST":
+        # Collect data from the POST request
+        product_id = request.POST.get("product")
+        sell = request.POST.get("sell")
+        stor = request.POST.get("stor")
+        temperature = request.POST.get("temperature")
+        humidity = request.POST.get("humidity")
+        batch_count = request.POST.get("c")
+        datetime_value = request.POST.get("datetime")
+        unit = request.POST.get("u")
+        per_unit_price = request.POST.get("float_value")
+        description = request.POST.get("description")
+        product_amount = request.POST.get("product_amount")
+        street = request.POST.get("street")
+        city = request.POST.get("city")
+        state = request.POST.get("state")
+        country = request.POST.get("country")
+        latitude = request.POST.get("latitude")
+        longitude = request.POST.get("longitude")
+        altitude = request.POST.get("altitude")
+        timezone = request.POST.get("timezone")
+
+        # Validate required fields
+        # errors = []
+        # if not product_id:
+        #     errors.append("Product selection is required.")
+        # if not humidity or not 0 <= float(humidity) <= 100:
+        #     errors.append("Humidity must be between 0 and 100%.")
+        # if not temperature or not -50 <= float(temperature) <= 50:
+        #     errors.append("Temperature must be between -50°C and 50°C.")
+        # if not batch_count or int(batch_count) < 1:
+        #     errors.append("Batch count must be at least 1.")
+        # if not per_unit_price or float(per_unit_price) <= 0:
+        #     errors.append("Per unit price must be a positive number.")
+        # if not product_amount or float(product_amount) <= 0:
+        #     errors.append("Product amount per batch must be a positive number.")
+        # if not street or not city or not state or not country:
+        #     errors.append("Complete location details (street, city, state, country) are required.")
+
+        # if errors:
+        #     return render(
+        #         request,
+        #         "inventory_form.html",
+        #         {
+        #             "errors": errors,
+        #             "user": user,
+        #             "location": location,
+                    
+        #         },
+        #     )
+
+        # Process and save the valid data (this is a placeholder; customize as needed)
+        # Example:
+        # InventoryEntry.objects.create(
+        #     user=user,
+        #     product_id=product_id,
+        #     sell=bool(sell),
+        #     stor=bool(stor),
+        #     temperature=temperature,
+        #     humidity=humidity,
+        #     batch_count=batch_count,
+        #     datetime=datetime_value,
+        #     unit=unit,
+        #     per_unit_price=per_unit_price,
+        #     description=description,
+        #     product_amount=product_amount,
+        #     street=street,
+        #     city=city,
+        #     state=state,
+        #     country=country,
+        #     latitude=latitude,
+        #     longitude=longitude,
+        #     altitude=altitude,
+        #     timezone=timezone,
+        # )
+
+
+        try:
+            location = Location.objects.create(
+                latitude=latitude,
+                longitude=longitude,
+                altitude=altitude,
+                timezone=timezone,
+                street=street,
+                city=city,
+                state=state,
+                country=country
+
+               
+            )
+            product = Product.objects.get(product_id=product_id)
+            
+            # for i in range(int(batch_count)):
+            #     Batch.objects.create(location=location,user=user,product=product)
+            
+        except Exception as e:
+            # If there is an error with saving the location, return an error message
+            return render(request, 'add_batch_to_invantory.html', {"text": f"Error saving location: {str(e)}"})
+
+        return render(request, 'add_batch_to_invantory.html', {"text": "batch added successfully!"})
+
 
 
 
