@@ -92,8 +92,6 @@ class Batch(models.Model):
     sid = models.ForeignKey('Supplier', models.DO_NOTHING, db_column='SID', blank=True, null=True)  # Field name made lowercase.
     market = models.ForeignKey('MarketPlace', models.DO_NOTHING, db_column='MARKET_ID', blank=True, null=True)  # Field name made lowercase.
     product_amount = models.DecimalField(db_column='Product_Amount', max_digits=10, decimal_places=2)  # Field name made lowercase.
-    sell = models.IntegerField(db_column='SELL', blank=True, null=True)  # Field name made lowercase.
-    store = models.IntegerField(db_column='STORE', blank=True, null=True)  # Field name made lowercase.
     optimum_temperature_to_store = models.DecimalField(db_column='Optimum_temperature_to_store', max_digits=5, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     optimum_humidity_to_store = models.DecimalField(db_column='Optimum_humidity_to_store', max_digits=5, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     product_unit_price = models.DecimalField(db_column='Product_Unit_price', max_digits=10, decimal_places=2)  # Field name made lowercase.
@@ -105,6 +103,8 @@ class Batch(models.Model):
     user = models.ForeignKey('User', models.DO_NOTHING, db_column='User_ID', blank=True, null=True)  # Field name made lowercase.
     product = models.ForeignKey('Product', models.DO_NOTHING, db_column='PRODUCT_ID', blank=True, null=True)  # Field name made lowercase.
     hid = models.ForeignKey('Harvest', models.DO_NOTHING, db_column='HID', blank=True, null=True)  # Field name made lowercase.
+    sell = models.IntegerField(db_column='SELL')  # Field name made lowercase.
+    store = models.IntegerField(db_column='STORE')  # Field name made lowercase.
 
     class Meta:
         managed = False

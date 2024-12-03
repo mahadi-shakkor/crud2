@@ -6,6 +6,9 @@
     <title>Document</title>
 </head>
 <body>
+    {% if text %}
+    <p style="color: red;">{{ text }}</p>
+{% endif %}
     <h1>add to inventory here {{ user.name }} {{ user.userid }} <br> userlocation_City: {{ location.city }}</h1>
 
     <br>

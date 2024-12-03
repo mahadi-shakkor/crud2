@@ -7,6 +7,35 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import User
 def add_batch_to_invantory(request):
+
+
+
+# --------------------------------------------========================================================
+    Batch.objects.create(
+    # location=location,  
+    # Location foreign key               
+    product_amount=100.00,  # Product Amount
+    sell=True,  # SELL as True (1)
+    store=True,  # STORE as True (1)
+    optimum_temperature_to_store=25.00,  # Optimum Temperature
+    optimum_humidity_to_store=60.00,  # Optimum Humidity
+    product_unit_price=15.50,  # Product Unit Price
+    kg='KG',  # Example Unit for KG (can be None or another unit if needed)
+    ton='TON',  # Example Unit for TON (can be None or another unit if needed)
+    mon='MON',  # Example Unit for MON (can be None or another unit if needed)
+    batch_description='Batch description text',  # Description of the batch
+    date_time_batch_created=datetime.now(),  # Current datetime
+    # user=user, 
+      # User foreign key
+    # product=product 
+    )
+    return render(request, 'add_batch_to_invantory.html', {"text": "New batch added"})
+# --------------------------------------------------====================================================
+
+
+
+
+
     userid = request.GET.get('userid')
     
     try:
@@ -54,110 +83,36 @@ def add_batch_to_invantory(request):
         print(f"Altitude: {altitude}")
         print(f"Timezone: {timezone}")
 
-        # Validate required fields
-        # errors = []
-        # if not product_id:
-        #     errors.append("Product selection is required.")
-        # if not humidity or not 0 <= float(humidity) <= 100:
-        #     errors.append("Humidity must be between 0 and 100%.")
-        # if not temperature or not -50 <= float(temperature) <= 50:
-        #     errors.append("Temperature must be between -50°C and 50°C.")
-        # if not batch_count or int(batch_count) < 1:
-        #     errors.append("Batch count must be at least 1.")
-        # if not per_unit_price or float(per_unit_price) <= 0:
-        #     errors.append("Per unit price must be a positive number.")
-        # if not product_amount or float(product_amount) <= 0:
-        #     errors.append("Product amount per batch must be a positive number.")
-        # if not street or not city or not state or not country:
-        #     errors.append("Complete location details (street, city, state, country) are required.")
-
-        # if errors:
-        #     return render(
-        #         request,
-        #         "add_batch_to_invantory.html",
-        #         {
-        #             "errors": errors,
-        #             "user": user,
-        #             "location": location,
-        #             "user":user,"location":location,"product":product
-                    
-        #         },
-        #     )
-
-        # Process and save the valid data (this is a placeholder; customize as needed)
-        # Example:
-        # InventoryEntry.objects.create(
-        #     user=user,
-        #     product_id=product_id,
-        #     sell=bool(sell),
-        #     stor=bool(stor),
-        #     temperature=temperature,
-        #     humidity=humidity,
-        #     batch_count=batch_count,
-        #     datetime=datetime_value,
-        #     unit=unit,
-        #     per_unit_price=per_unit_price,
-        #     description=description,
-        #     product_amount=product_amount,
-        #     street=street,
-        #     city=city,
-        #     state=state,
-        #     country=country,
-        #     latitude=latitude,
-        #     longitude=longitude,
-        #     altitude=altitude,
-        #     timezone=timezone,
-        # )
-
-
-        try:
-            location = Location.objects.create(
-                latitude=latitude,
-                longitude=longitude,
-                altitude=altitude,
-                timezone=timezone,
-                street=street,
-                city=city,
-                state=state,
-                country=country
+        # try:
+        #     location = Location.objects.create(
+        #         latitude=latitude,
+        #         longitude=longitude,
+        #         altitude=altitude,
+        #         timezone=timezone,
+        #         street=street,
+        #         city=city,
+        #         state=state,
+        #         country=country
 
                
-            )
-            product = Product.objects.get(product_id=int(product_id))
+        #     )
+        #     product = Product.objects.get(product_id=int(product_id))
             
-            # Assuming you have valid Location, Product, User, and Harvest objects with corresponding IDs.
-            location = Location.objects.get(id=1)  # Replace with valid Location ID
-            product = Product.objects.get(id=10)  # Replace with valid Product ID
-            user = User.objects.get(id=1)  # Replace with valid User ID
-            # harvest = Harvest.objects.get(id=1)  # Replace with valid Harvest ID
+        #     # Assuming you have valid Location, Product, User, and Harvest objects with corresponding IDs.
+        #     location = Location.objects.get(id=1)  # Replace with valid Location ID
+        #     product = Product.objects.get(id=10)  # Replace with valid Product ID
+        #     user = User.objects.get(id=1)  # Replace with valid User ID
+        #     # harvest = Harvest.objects.get(id=1)  # Replace with valid Harvest ID
 
-            # Create a new Batch entry
-            batch = Batch.objects.create(
-                location=location,  # Location foreign key
-                sid=None,  # SID foreign key, you can set this to None if not applicable
-                market=None,  # MARKET_ID foreign key, you can set this to None if not applicable
-                product_amount=100.00,  # Product Amount
-                sell=True,  # SELL as True (1)
-                store=True,  # STORE as True (1)
-                optimum_temperature_to_store=25.00,  # Optimum Temperature
-                optimum_humidity_to_store=60.00,  # Optimum Humidity
-                product_unit_price=15.50,  # Product Unit Price
-                kg='KG',  # Example Unit for KG (can be None or another unit if needed)
-                ton='TON',  # Example Unit for TON (can be None or another unit if needed)
-                mon='MON',  # Example Unit for MON (can be None or another unit if needed)
-                batch_description='Batch description text',  # Description of the batch
-                date_time_batch_created=datetime.now(),  # Current datetime
-                user=user,  # User foreign key
-                product=product  # Product foreign key
-                # hid=harvest,  # Harvest foreign key
-            )
+        #     # Create a new Batch entry
 
-            print("Batch created:", batch)
 
             
-        except Exception as e:
-            # If there is an error with saving the location, return an error message
-            return render(request, 'add_batch_to_invantory.html', {"text": f"Error saving location: {str(e)}","user":user,"location":location,"product":product})
+
+            
+        # except Exception as e:
+        #     # If there is an error with saving the location, return an error message
+        #     return render(request, 'add_batch_to_invantory.html', {"text": f"Error saving location: {str(e)}","user":user,"location":location,"product":product})
 
         return render(request, 'add_batch_to_invantory.html', {"text": "batch added successfully!","user":user,"location":location,"product":product})
 
