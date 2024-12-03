@@ -40,18 +40,18 @@
 
 
         <label for="temperature">Enter Temperature to Stor (°C):</label>
-        <input type="number" id="temperature" name="temperature" min="-50" max="50" step="0.1" placeholder="Enter temperature in Celsius">
+        <input type="number" value="20.0" id="temperature" name="temperature" min="-50" max="50" step="0.1" placeholder="Enter temperature in Celsius">
         <br><br>
    
 
 
         <label for="humidity">Enter Humidity to stor (%)</label>
-        <input type="number" name="humidity" id="humidity" step="0.01" min="0" max="100" placeholder="e.g. 60.5" required>
+        <input type="number" value="60.5" name="humidity" id="humidity" step="0.01" min="0" max="100" placeholder="e.g. 60.5" required>
         <br><br>
 
 
         <label for="c">number of batch u want to make </label>
-        <input type="number" id="c" name="c" step="1" min="1" placeholder="Enter a whole number" required>
+        <input type="number" value="1" id="c" name="c" step="1" min="1" placeholder="Enter a whole number" required>
         <br><br>
 
 
@@ -73,23 +73,23 @@
 
 
         <label for="float_value">Enter Per Unit Price</label>
-        <input type="number" id="float_value" name="float_value" step="0.01" placeholder="e.g. 10.5" required>
+        <input type="number" value="100" id="float_value" name="float_value" step="0.01" placeholder="e.g. 10.5" required>
         <br><br>
 
 
 
         <label for="description">Description:</label>
-        <textarea id="description"  name="description" rows="7" cols="50" placeholder="Enter your description here..." required ></textarea>
+        <textarea id="description" valu="good"  name="description" rows="7" cols="50" placeholder="Enter your description here..." required ></textarea>
         <br><br>
 
         <label for="product_amount">Enter Product Amount per Batch:</label>
-        <input type="number" id="product_amount" name="product_amount" step="0.01" placeholder="e.g. 10.5" required>
+        <input type="number" value="10" id="product_amount" name="product_amount" step="0.01" placeholder="e.g. 10.5" required>
         <br><br>
 
 
         <label for=""><b>Batch location Details:</b></label><br><br>
         <label for="street">Use user Location To Batch Location</label>
-        <input type="checkbox" id="street" name="Set_my_L_batch_L" value="{{ request.POST.Set_my_L_batch_L }}"><br><br>
+        <input type="checkbox"  id="street" name="Set_my_L_batch_L" ><br><br>
 
 
 
