@@ -10,17 +10,17 @@
 
     <br>
 
-    <h3> {{product.name}} {{location.city}}</h3>
+    <!-- <h3> {{product.na}} {{location.city}}</h3> -->
 
     <form method="post">
         {% csrf_token %}
-        
+
         <label for="product">Select Product:</label>
-        <select name="product" id="product">
-            {% for p in product %}
-                <option value="{{ p.id }}">{{ p.product_name }}</option>
-            {% endfor %}
-        </select>
+        <select name="product">
+        {% for p in product %}  
+            <option value="{{ p.product_id }}">{{ p.product_name }}</option>
+        {% endfor %}
+         </select>
 
         <br><br>
 

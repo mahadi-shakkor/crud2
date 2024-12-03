@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from .models import User
 def add_batch_to_invantory(request):
     userid = request.GET.get('userid')
+    
     try:
         user = User.objects.get(userid=userid)
         location=user.location
@@ -35,6 +36,23 @@ def add_batch_to_invantory(request):
         longitude = request.POST.get("longitude")
         altitude = request.POST.get("altitude")
         timezone = request.POST.get("timezone")
+        print("Form data received:")
+        print(f"Product ID: {product_id}")
+        print(f"Sell: {sell}")
+        print(f"Store: {stor}")
+        print(f"Temperature: {temperature}")
+        print(f"Humidity: {humidity}")
+        print(f"Batch count: {batch_count}")
+        print(f"DateTime: {datetime_value}")
+        print(f"Unit: {unit}")
+        print(f"Per unit price: {per_unit_price}")
+        print(f"Description: {description}")
+        print(f"Product amount per batch: {product_amount}")
+        print(f"Location: {street}, {city}, {state}, {country}")
+        print(f"Latitude: {latitude}")
+        print(f"Longitude: {longitude}")
+        print(f"Altitude: {altitude}")
+        print(f"Timezone: {timezone}")
 
         # Validate required fields
         # errors = []
@@ -56,11 +74,12 @@ def add_batch_to_invantory(request):
         # if errors:
         #     return render(
         #         request,
-        #         "inventory_form.html",
+        #         "add_batch_to_invantory.html",
         #         {
         #             "errors": errors,
         #             "user": user,
         #             "location": location,
+        #             "user":user,"location":location,"product":product
                     
         #         },
         #     )
@@ -104,16 +123,43 @@ def add_batch_to_invantory(request):
 
                
             )
-            product = Product.objects.get(product_id=product_id)
+            product = Product.objects.get(product_id=int(product_id))
             
-            # for i in range(int(batch_count)):
-            #     Batch.objects.create(location=location,user=user,product=product)
+            # Assuming you have valid Location, Product, User, and Harvest objects with corresponding IDs.
+            location = Location.objects.get(id=1)  # Replace with valid Location ID
+            product = Product.objects.get(id=10)  # Replace with valid Product ID
+            user = User.objects.get(id=1)  # Replace with valid User ID
+            # harvest = Harvest.objects.get(id=1)  # Replace with valid Harvest ID
+
+            # Create a new Batch entry
+            batch = Batch.objects.create(
+                location=location,  # Location foreign key
+                sid=None,  # SID foreign key, you can set this to None if not applicable
+                market=None,  # MARKET_ID foreign key, you can set this to None if not applicable
+                product_amount=100.00,  # Product Amount
+                sell=True,  # SELL as True (1)
+                store=True,  # STORE as True (1)
+                optimum_temperature_to_store=25.00,  # Optimum Temperature
+                optimum_humidity_to_store=60.00,  # Optimum Humidity
+                product_unit_price=15.50,  # Product Unit Price
+                kg='KG',  # Example Unit for KG (can be None or another unit if needed)
+                ton='TON',  # Example Unit for TON (can be None or another unit if needed)
+                mon='MON',  # Example Unit for MON (can be None or another unit if needed)
+                batch_description='Batch description text',  # Description of the batch
+                date_time_batch_created=datetime.now(),  # Current datetime
+                user=user,  # User foreign key
+                product=product  # Product foreign key
+                # hid=harvest,  # Harvest foreign key
+            )
+
+            print("Batch created:", batch)
+
             
         except Exception as e:
             # If there is an error with saving the location, return an error message
-            return render(request, 'add_batch_to_invantory.html', {"text": f"Error saving location: {str(e)}"})
+            return render(request, 'add_batch_to_invantory.html', {"text": f"Error saving location: {str(e)}","user":user,"location":location,"product":product})
 
-        return render(request, 'add_batch_to_invantory.html', {"text": "batch added successfully!"})
+        return render(request, 'add_batch_to_invantory.html', {"text": "batch added successfully!","user":user,"location":location,"product":product})
 
 
 
@@ -121,7 +167,7 @@ def add_batch_to_invantory(request):
 
 
     return render(request,"add_batch_to_invantory.html",{"user":user,"location":location,"product":product})
-
+from datetime import datetime
 def dashboard2(request):
     return render(request,"dashboard2.html")
 
