@@ -6,6 +6,11 @@ from .models import Batch,User,Product, Location,WirehouseManager,Retailer,Farme
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import User
+
+
+def monitir_realtime_tem_humidity(request):
+    return render(request, 'monitir_realtime_tem_humidity.html')
+
 def add_batch_to_invantory(request):
     userid = request.GET.get('userid')
     user = User.objects.get(userid=userid)
@@ -143,98 +148,99 @@ def add_batch_to_invantory(request):
 
 
     return render(request, 'add_batch_to_invantory.html', {"text": "New batch added","product":product,"location":location1})
-# --------------------------------------------------====================================================
+# # --------------------------------------------------====================================================
 
 
 
 
 
-    userid = request.GET.get('userid')
+#     userid = request.GET.get('userid')
     
-    try:
-        user = User.objects.get(userid=userid)
-        location=user.location
-        product=Product.objects.all()
-    except:
-        return HttpResponse("user not found")
-    if request.method == "POST":
-        # Collect data from the POST request
-        product_id = request.POST.get("product")
-        sell = request.POST.get("sell")
-        stor = request.POST.get("stor")
-        temperature = request.POST.get("temperature")
-        humidity = request.POST.get("humidity")
-        batch_count = request.POST.get("c")
-        datetime_value = request.POST.get("datetime")
-        unit = request.POST.get("u")
-        per_unit_price = request.POST.get("float_value")
-        description = request.POST.get("description")
-        product_amount = request.POST.get("product_amount")
-        street = request.POST.get("street")
-        city = request.POST.get("city")
-        state = request.POST.get("state")
-        country = request.POST.get("country")
-        latitude = request.POST.get("latitude")
-        longitude = request.POST.get("longitude")
-        altitude = request.POST.get("altitude")
-        timezone = request.POST.get("timezone")
-        print("Form data received:")
-        print(f"Product ID: {product_id}")
-        print(f"Sell: {sell}")
-        print(f"Store: {stor}")
-        print(f"Temperature: {temperature}")
-        print(f"Humidity: {humidity}")
-        print(f"Batch count: {batch_count}")
-        print(f"DateTime: {datetime_value}")
-        print(f"Unit: {unit}")
-        print(f"Per unit price: {per_unit_price}")
-        print(f"Description: {description}")
-        print(f"Product amount per batch: {product_amount}")
-        print(f"Location: {street}, {city}, {state}, {country}")
-        print(f"Latitude: {latitude}")
-        print(f"Longitude: {longitude}")
-        print(f"Altitude: {altitude}")
-        print(f"Timezone: {timezone}")
+#     try:
+#         user = User.objects.get(userid=userid)
+#         location=user.location
+#         product=Product.objects.all()
+#     except:
+#         return HttpResponse("user not found")
+#     if request.method == "POST":
+#         # Collect data from the POST request
+#         product_id = request.POST.get("product")
+#         sell = request.POST.get("sell")
+#         stor = request.POST.get("stor")
+#         temperature = request.POST.get("temperature")
+#         humidity = request.POST.get("humidity")
+#         batch_count = request.POST.get("c")
+#         datetime_value = request.POST.get("datetime")
+#         unit = request.POST.get("u")
+#         per_unit_price = request.POST.get("float_value")
+#         description = request.POST.get("description")
+#         product_amount = request.POST.get("product_amount")
+#         street = request.POST.get("street")
+#         city = request.POST.get("city")
+#         state = request.POST.get("state")
+#         country = request.POST.get("country")
+#         latitude = request.POST.get("latitude")
+#         longitude = request.POST.get("longitude")
+#         altitude = request.POST.get("altitude")
+#         timezone = request.POST.get("timezone")
+#         print("Form data received:")
+#         print(f"Product ID: {product_id}")
+#         print(f"Sell: {sell}")
+#         print(f"Store: {stor}")
+#         print(f"Temperature: {temperature}")
+#         print(f"Humidity: {humidity}")
+#         print(f"Batch count: {batch_count}")
+#         print(f"DateTime: {datetime_value}")
+#         print(f"Unit: {unit}")
+#         print(f"Per unit price: {per_unit_price}")
+#         print(f"Description: {description}")
+#         print(f"Product amount per batch: {product_amount}")
+#         print(f"Location: {street}, {city}, {state}, {country}")
+#         print(f"Latitude: {latitude}")
+#         print(f"Longitude: {longitude}")
+#         print(f"Altitude: {altitude}")
+#         print(f"Timezone: {timezone}")
 
-        # try:
-        #     location = Location.objects.create(
-        #         latitude=latitude,
-        #         longitude=longitude,
-        #         altitude=altitude,
-        #         timezone=timezone,
-        #         street=street,
-        #         city=city,
-        #         state=state,
-        #         country=country
+#         # try:
+#         #     location = Location.objects.create(
+#         #         latitude=latitude,
+#         #         longitude=longitude,
+#         #         altitude=altitude,
+#         #         timezone=timezone,
+#         #         street=street,
+#         #         city=city,
+#         #         state=state,
+#         #         country=country
 
                
-        #     )
-        #     product = Product.objects.get(product_id=int(product_id))
+#         #     )
+#         #     product = Product.objects.get(product_id=int(product_id))
             
-        #     # Assuming you have valid Location, Product, User, and Harvest objects with corresponding IDs.
-        #     location = Location.objects.get(id=1)  # Replace with valid Location ID
-        #     product = Product.objects.get(id=10)  # Replace with valid Product ID
-        #     user = User.objects.get(id=1)  # Replace with valid User ID
-        #     # harvest = Harvest.objects.get(id=1)  # Replace with valid Harvest ID
+#         #     # Assuming you have valid Location, Product, User, and Harvest objects with corresponding IDs.
+#         #     location = Location.objects.get(id=1)  # Replace with valid Location ID
+#         #     product = Product.objects.get(id=10)  # Replace with valid Product ID
+#         #     user = User.objects.get(id=1)  # Replace with valid User ID
+#         #     # harvest = Harvest.objects.get(id=1)  # Replace with valid Harvest ID
 
-        #     # Create a new Batch entry
+#         #     # Create a new Batch entry
 
-
-            
 
             
-        # except Exception as e:
-        #     # If there is an error with saving the location, return an error message
-        #     return render(request, 'add_batch_to_invantory.html', {"text": f"Error saving location: {str(e)}","user":user,"location":location,"product":product})
 
-        return render(request, 'add_batch_to_invantory.html', {"text": "batch added successfully!","user":user,"location":location,"product":product})
+            
+#         # except Exception as e:
+#         #     # If there is an error with saving the location, return an error message
+#         #     return render(request, 'add_batch_to_invantory.html', {"text": f"Error saving location: {str(e)}","user":user,"location":location,"product":product})
 
-
-
-
+#         return render(request, 'add_batch_to_invantory.html', {"text": "batch added successfully!","user":user,"location":location,"product":product})
 
 
-    return render(request,"add_batch_to_invantory.html",{"user":user,"location":location,"product":product})
+
+
+
+
+#     return render(request,"add_batch_to_invantory.html",{"user":user,"location":location,"product":product})
+
 from datetime import datetime
 def dashboard2(request):
     return render(request,"dashboard2.html")
