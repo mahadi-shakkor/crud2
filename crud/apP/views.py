@@ -21,9 +21,21 @@ from .forms import PDemandForm
 
 def PDemand(request):
     if request.method == 'POST':
-        formPD = PDemandForm(request.POST, userid=request.user.id, locationid=1) 
+        userid = request.GET.get('userid')
+        
+        try:
+            user = User.objects.get(userid=userid)
+        except User.DoesNotExist:
+            # Handle the case where the user doesn't exist (optional)
+            user = None
+
+
         formL = LocationForm(request.POST) 
-        if formPD.is_valid() and  formL.is_valid():
+
+        if formL.is_valid():
+            formPD = PDemandForm(request.POST, userid=userid, locationid=formL) 
+
+        if formPD.is_valid() :
             formL.save()
             formPD.save()
             return redirect('PDemand')  
