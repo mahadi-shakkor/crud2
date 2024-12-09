@@ -89,7 +89,6 @@ class AuthUserUserPermissions(models.Model):
 class Batch(models.Model):
     b_number = models.AutoField(db_column='B_Number', primary_key=True)  # Field name made lowercase.
     location = models.ForeignKey('Location', models.DO_NOTHING, db_column='Location_ID', blank=True, null=True)  # Field name made lowercase.
-    sid = models.ForeignKey('Supplier', models.DO_NOTHING, db_column='SID', blank=True, null=True)  # Field name made lowercase.
     market = models.ForeignKey('MarketPlace', models.DO_NOTHING, db_column='MARKET_ID', blank=True, null=True)  # Field name made lowercase.
     product_amount = models.DecimalField(db_column='Product_Amount', max_digits=10, decimal_places=2)  # Field name made lowercase.
     optimum_temperature_to_store = models.DecimalField(db_column='Optimum_temperature_to_store', max_digits=5, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
@@ -167,28 +166,6 @@ class DistributorCompany(models.Model):
     class Meta:
         managed = False
         db_table = 'distributor_company'
-
-
-class DistributorCompanyDemandForProduct(models.Model):
-    did = models.OneToOneField(DistributorCompany, models.DO_NOTHING, db_column='DID', primary_key=True)  # Field name made lowercase. The composite primary key (DID, PID, Demand_Date_Time) found, that is not supported. The first column is selected.
-    pid = models.ForeignKey('Product', models.DO_NOTHING, db_column='PID')  # Field name made lowercase.
-    demandamount = models.DecimalField(db_column='DemandAmount', max_digits=10, decimal_places=2)  # Field name made lowercase.
-    ton = models.DecimalField(db_column='TON', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    mon = models.DecimalField(db_column='MON', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    kg = models.DecimalField(db_column='KG', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    demand_date_time = models.DateTimeField(db_column='Demand_Date_Time')  # Field name made lowercase.
-    city = models.CharField(db_column='CITY', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    state = models.CharField(db_column='STATE', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    area = models.CharField(db_column='AREA', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    season = models.CharField(db_column='SEASON', max_length=50, blank=True, null=True)  # Field name made lowercase.
-    price_should_be = models.DecimalField(db_column='Price_Should_be', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    status = models.CharField(db_column='Status', max_length=50, blank=True, null=True)  # Field name made lowercase.
-    comments = models.TextField(db_column='Comments', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'distributor_company_demand_for_product'
-        unique_together = (('did', 'pid', 'demand_date_time'),)
 
 
 class DjangoAdminLog(models.Model):
@@ -440,6 +417,29 @@ class Nutritionists(models.Model):
     class Meta:
         managed = False
         db_table = 'nutritionists'
+
+
+class PDemand(models.Model):
+    product = models.ForeignKey('Product', models.DO_NOTHING, blank=True, null=True)
+    userid = models.ForeignKey('User', models.DO_NOTHING, db_column='userid', blank=True, null=True)
+    locationid = models.ForeignKey(Location, models.DO_NOTHING, db_column='locationid', blank=True, null=True)
+    p_demand_id = models.AutoField(primary_key=True)
+    demandamount = models.DecimalField(db_column='DemandAmount', max_digits=10, decimal_places=2)  # Field name made lowercase.
+    ton = models.DecimalField(db_column='TON', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    mon = models.DecimalField(db_column='MON', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    kg = models.DecimalField(db_column='KG', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    demand_date_time = models.DateTimeField(db_column='Demand_Date_Time')  # Field name made lowercase.
+    city = models.CharField(db_column='CITY', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    state = models.CharField(db_column='STATE', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    area = models.CharField(db_column='AREA', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    season = models.CharField(db_column='SEASON', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    price_should_be = models.DecimalField(db_column='Price_Should_be', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    status = models.CharField(db_column='Status', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    comments = models.TextField(db_column='Comments', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'p_demand'
 
 
 class Product(models.Model):

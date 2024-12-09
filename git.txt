@@ -15,7 +15,6 @@ open in vs code then
   venv\Scripts\activate
    pip install django
     python.exe -m pip install --upgrade pip
-     pip install django-widget-tweaks
       pip install mysqlclient
        python manage.py runserver
 --------------------

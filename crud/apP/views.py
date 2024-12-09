@@ -5,13 +5,45 @@ from .models import Batch,User,Product, Location,WirehouseManager,Retailer,Farme
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import User
+from .models import *
 
+
+from django.shortcuts import render
+from .models import User, Batch  # Assuming these are the correct imports
+
+
+def PDemand(request):
+    userid = request.GET.get('userid')
+    
+    try:
+        user = User.objects.get(userid=userid)
+    except User.DoesNotExist:
+        # Handle the case where the user doesn't exist (optional)
+        user = None
+    return render(request, 'PDemand.html' ,{"user":user})
 
 def monitir_realtime_tem_humidity(request):
-    return render(request, 'monitir_realtime_tem_humidity.html')
+    userid = request.GET.get('userid')
+    
+    try:
+        user = User.objects.get(userid=userid)
+    except User.DoesNotExist:
+        # Handle the case where the user doesn't exist (optional)
+        user = None
+    
+    # Get all batches where the user matches
+    batch = Batch.objects.filter(user=user).order_by('-date_time_batch_created')
+    # batch=Batch.objects.all()
+    
+    return render(request, 'monitir_realtime_tem_humidity.html', {'batch': batch})
+
+
+
+    # return render(request, 'monitir_realtime_tem_humidity.html')
 
 def add_batch_to_invantory(request):
+    text='';
+
     userid = request.GET.get('userid')
     user = User.objects.get(userid=userid)
     location1=user.location
@@ -26,6 +58,7 @@ def add_batch_to_invantory(request):
     # print()
     
     if request.method == "POST":
+        
         # Collect data from the POST request
         product_id = request.POST.get("product")
         sell = request.POST.get("sell")
@@ -114,11 +147,7 @@ def add_batch_to_invantory(request):
             
 
 
-            # print("chacked")
-        # print({location.city})
-        # print({user.name})
         
-# --------------------------------------------========================================================
         Batch.objects.create(
         location=location,  
         # Location foreign key               
@@ -143,7 +172,7 @@ def add_batch_to_invantory(request):
 
 
 
-        return render(request, 'add_batch_to_invantory.html', {"text": "New batch added","product":product,"location":location1})
+        return render(request, 'add_batch_to_invantory.html', {"text": "text","product":product,"location":location1})
 
 
 

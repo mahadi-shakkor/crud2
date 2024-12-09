@@ -7,6 +7,29 @@
 </head>
 <body>
     <h1>Real time temperature monotoe here</h1>
+    {% if batch %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in batch %}
+            <tr>
+            
+                <td>{{ b.b_number }}</td>
+                <td>{{ b.product.product_name }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No books available.</p>
+{% endif %}
     
 </body>
 </html>
