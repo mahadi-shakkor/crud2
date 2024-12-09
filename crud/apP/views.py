@@ -9,36 +9,22 @@ from django.shortcuts import render, get_object_or_404
 
 def PDemand(request):
     
-    userid = request.GET.get('userid')  # Get the userid from the GET parameters
-    user = get_object_or_404(User, userid=userid)  # Safely retrieve the user object or return a 404
+    userid = request.GET.get('userid')  
+    user = get_object_or_404(User, userid=userid)  
+    products = Product.objects.all()  
 
-    products = Product.objects.all()  # Load all products
+
     for i in products:
         print(i.product_name)
     if request.method == 'POST':
-        print("+++++++++++++++++++++++++++++++++++++++++++++++")
-        print(request.POST)
-
-        print("\n\n\n\n\n\n\n"
-            
-        )
-        print("in post Start ")
-        
         location = LocationForm(request.POST)
-        pdf = ProductDemandForm(request.POST)
-
         if location.is_valid() :  # Check both forms' validity
             location_instance = location.save(commit=False)
             # Print to check values
             print(location_instance.city, location_instance.state)
             location_instance.save()
             print("valid loation")
-        if pdf.is_valid():
-            print("valid PDF ")
-            product_id = pdf.cleaned_data['product']   
-            selected_product = Product.objects.get(product_id=product_id)
-
-            print("===selected -->>"+selected_product.product_name) 
+        
 
         print("user __>>"+user.name)
 
@@ -46,6 +32,11 @@ def PDemand(request):
 
                 # Get the selected value from the radio button group
         selected_option = request.POST.get('flexRadioDefault')
+        product_id = request.POST.get('product_id')
+        product = get_object_or_404(Product, product_id=product_id)
+
+        print(product.product_name)
+
 
         # Check which option was selected
         if selected_option == "KG":
@@ -57,62 +48,27 @@ def PDemand(request):
         else:
             message = "No valid option selected."
         print(message)
-        location.save()
+        # location.save()
+               
+       
 
-        # Process the selected value or return a response
+        
+
+
+        
         
 
     else:
         
         location = LocationForm()
-        pdf=ProductDemandForm()
+       
 
-    return render(request, 'PDemand.html', {"pdf":pdf,"user": user, 'location': location})
-
-
-
-
-# def PDemand3(request):
-#     userid = request.GET.get('userid')
-    
-#     try:
-#         user = User.objects.get(userid=userid)
-#     except User.DoesNotExist:
-#         # Handle the case where the user doesn't exist (optional)
-#         user = None
-#     if request.method == 'POST':
-#         form = PDemandForm(request.POST)
-#         if form.is_valid():
-#             # Process the valid form data
-#             cleaned_data = form.cleaned_data
-#             # Save or update database as needed
-#             return render(request, '/', {'message': 'Form submitted successfully!',"user":user,'form': form})
-#     else:
-#         form = PDemandForm()
-    
-#     return render(request, 'PDemand.html', {"user":user,'form': form})
+    return render(request, 'PDemand.html', {"products":products,"user": user, 'location': location})
 
 
 
-# def PDemand2(request):
-#     userid = request.GET.get('userid')
-    
-#     try:
-#         user = User.objects.get(userid=userid)
-#     except User.DoesNotExist:
-#         # Handle the case where the user doesn't exist (optional)
-#         user = None
-    
 
 
-#     if request.method == 'POST':
-#         form = PDemandForm(request.POST)
-#         if form.is_valid():
-#             cleaned_data = form.cleaned_data
-#     else:
-#         form = PDemandForm()    
-
-#     return render(request, 'PDemand.html' ,{"user":user,'form': form})
 
 def monitir_realtime_tem_humidity(request):
     userid = request.GET.get('userid')

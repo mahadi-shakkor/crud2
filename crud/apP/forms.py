@@ -6,7 +6,7 @@ from django import forms
 from .models import Product
 from datetime import datetime
 
-class ProductDemandForm(forms.Form):
+class ProductDemandForm1(forms.Form):
     product = forms.ChoiceField(choices=[], required=True, label="Select Product")
     demandamount = forms.DecimalField(max_digits=10, decimal_places=2, required=True, label="Demand Amount")
     demand_date_time = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}), required=True, label="Demand Date and Time")   
@@ -64,3 +64,11 @@ class LocationForm(forms.ModelForm):
             'altitude': 'Altitude',
             'timezone': 'Timezone',
         }
+
+
+
+
+
+
+
+
