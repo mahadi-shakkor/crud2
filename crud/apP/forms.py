@@ -1,5 +1,5 @@
 from django import forms
-from .models import PDemand
+from .models import PDemand, Product  # Import the related Product model
 
 class PDemandForm(forms.ModelForm):
     class Meta:
@@ -24,11 +24,14 @@ class PDemandForm(forms.ModelForm):
             'comments': forms.Textarea(attrs={'rows': 3}),
         }
     
-    # Overwrite init to handle hidden or backend-only fields
     def __init__(self, *args, **kwargs):
         self.userid = kwargs.pop('userid', None)
         self.locationid = kwargs.pop('locationid', None)
         super().__init__(*args, **kwargs)
+        
+        # Customize the product field to display product names in the dropdown
+        self.fields['product'].queryset = Product.objects.all()
+        self.fields['product'].label_from_instance = lambda obj: obj.product_name  # Assuming `name` is the field for product name
 
     def save(self, commit=True):
         instance = super().save(commit=False)
@@ -40,6 +43,7 @@ class PDemandForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
 
 
 
