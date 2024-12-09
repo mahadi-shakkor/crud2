@@ -1,54 +1,32 @@
-from django import forms
-from .models import PDemand, Product  # Import the related Product model
-
-class PDemandForm(forms.ModelForm):
-    class Meta:
-        model = PDemand
-        fields = [
-            'product', 
-            'demandamount', 
-            'ton', 
-            'mon', 
-            'kg', 
-            'demand_date_time', 
-            'city', 
-            'state', 
-            'area', 
-            'season', 
-            'price_should_be', 
-            'status', 
-            'comments'
-        ]  # Exclude 'userid' and 'locationid'
-        widgets = {
-            'demand_date_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'comments': forms.Textarea(attrs={'rows': 3}),
-        }
-    
-    def __init__(self, *args, **kwargs):
-        self.userid = kwargs.pop('userid', None)
-        self.locationid = kwargs.pop('locationid', None)
-        super().__init__(*args, **kwargs)
-        
-        # Customize the product field to display product names in the dropdown
-        self.fields['product'].queryset = Product.objects.all()
-        self.fields['product'].label_from_instance = lambda obj: obj.product_name  # Assuming `name` is the field for product name
-
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        # Manually set `userid` and `locationid` if provided
-        if self.userid:
-            instance.userid_id = self.userid
-        if self.locationid:
-            instance.locationid_id = self.locationid
-        if commit:
-            instance.save()
-        return instance
-
-
 
 
 from django import forms
 from .models import Location
+from django import forms
+from .models import Product
+from datetime import datetime
+
+class ProductDemandForm(forms.Form):
+    product = forms.ChoiceField(choices=[], required=True, label="Select Product")
+    demandamount = forms.DecimalField(max_digits=10, decimal_places=2, required=True, label="Demand Amount")
+    demand_date_time = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}), required=True, label="Demand Date and Time")   
+    area = forms.CharField(max_length=255, required=False, label="Area")
+    season = forms.CharField(max_length=50, required=False, label="Season")
+    price_should_be = forms.DecimalField(max_digits=10, decimal_places=2, required=False, label="Price Should Be")
+    status = forms.CharField(max_length=50, required=False, label="Status")
+    comments = forms.CharField(widget=forms.Textarea, required=False, label="Comments")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        # Set the initial value for 'demand_date_time' to the current date and time
+        initial = kwargs.get('initial', {})
+        initial['demand_date_time'] = datetime.now().strftime('%Y-%m-%dT%H:%M')  # Format for datetime-local input
+        kwargs['initial'] = initial
+        
+        # Query all product names and populate the choices
+        product_choices = [(product.product_id, product.product_name) for product in Product.objects.all()]
+        self.fields['product'].choices = product_choices
 
 class LocationForm(forms.ModelForm):
     class Meta:

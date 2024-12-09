@@ -1,94 +1,118 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Batch,User,Product, Location,WirehouseManager,Retailer,Farmer,DistributorCompany,Customer,AgriculturalOfficer,Nutritionists,Supplier,Vendor
-from .forms import *
-
-
-from django.shortcuts import render
-from django.http import HttpResponse
 from .models import *
-
-
+from .forms import *
 from django.shortcuts import render
-from .models import User, Batch  
 
-from django.shortcuts import render
-from .forms import PDemandForm
+from django.shortcuts import render, get_object_or_404
 
 
-from django.shortcuts import render, redirect
-from .forms import PDemandForm
 
 def PDemand(request):
+    
+    userid = request.GET.get('userid')  # Get the userid from the GET parameters
+    user = get_object_or_404(User, userid=userid)  # Safely retrieve the user object or return a 404
+
+    products = Product.objects.all()  # Load all products
+    for i in products:
+        print(i.product_name)
     if request.method == 'POST':
-        userid = request.GET.get('userid')
+        print("+++++++++++++++++++++++++++++++++++++++++++++++")
+        print(request.POST)
+
+        print("\n\n\n\n\n\n\n"
+            
+        )
+        print("in post Start ")
         
-        try:
-            user = User.objects.get(userid=userid)
-        except User.DoesNotExist:
-            # Handle the case where the user doesn't exist (optional)
-            user = None
+        location = LocationForm(request.POST)
+        pdf = ProductDemandForm(request.POST)
 
+        if location.is_valid() :  # Check both forms' validity
+            location_instance = location.save(commit=False)
+            # Print to check values
+            print(location_instance.city, location_instance.state)
+            location_instance.save()
+            print("valid loation")
+        if pdf.is_valid():
+            print("valid PDF ")
+            product_id = pdf.cleaned_data['product']   
+            selected_product = Product.objects.get(product_id=product_id)
 
-        formL = LocationForm(request.POST) 
+            print("===selected -->>"+selected_product.product_name) 
 
-        if formL.is_valid():
-            formPD = PDemandForm(request.POST, userid=userid, locationid=formL) 
+        print("user __>>"+user.name)
 
-        if formPD.is_valid() :
-            formL.save()
-            formPD.save()
-            return redirect('PDemand')  
-    else:
-        formPD = PDemandForm()
-        formL = LocationForm()
+        print("in post end ")  
+
+                # Get the selected value from the radio button group
+        selected_option = request.POST.get('flexRadioDefault')
+
+        # Check which option was selected
+        if selected_option == "KG":
+            message = "You selected KG."
+        elif selected_option == "TON":
+            message = "You selected TON."
+        elif selected_option == "MON":
+            message = "You selected MON."
+        else:
+            message = "No valid option selected."
+        print(message)
+        location.save()
+
+        # Process the selected value or return a response
         
-    
-    return render(request, 'PDemand.html', {'formL': formL,'formPD': formPD})
 
-
-
-def PDemand3(request):
-    userid = request.GET.get('userid')
-    
-    try:
-        user = User.objects.get(userid=userid)
-    except User.DoesNotExist:
-        # Handle the case where the user doesn't exist (optional)
-        user = None
-    if request.method == 'POST':
-        form = PDemandForm(request.POST)
-        if form.is_valid():
-            # Process the valid form data
-            cleaned_data = form.cleaned_data
-            # Save or update database as needed
-            return render(request, '/', {'message': 'Form submitted successfully!',"user":user,'form': form})
     else:
-        form = PDemandForm()
+        
+        location = LocationForm()
+        pdf=ProductDemandForm()
+
+    return render(request, 'PDemand.html', {"pdf":pdf,"user": user, 'location': location})
+
+
+
+
+# def PDemand3(request):
+#     userid = request.GET.get('userid')
     
-    return render(request, 'PDemand.html', {"user":user,'form': form})
-
-
-
-def PDemand2(request):
-    userid = request.GET.get('userid')
+#     try:
+#         user = User.objects.get(userid=userid)
+#     except User.DoesNotExist:
+#         # Handle the case where the user doesn't exist (optional)
+#         user = None
+#     if request.method == 'POST':
+#         form = PDemandForm(request.POST)
+#         if form.is_valid():
+#             # Process the valid form data
+#             cleaned_data = form.cleaned_data
+#             # Save or update database as needed
+#             return render(request, '/', {'message': 'Form submitted successfully!',"user":user,'form': form})
+#     else:
+#         form = PDemandForm()
     
-    try:
-        user = User.objects.get(userid=userid)
-    except User.DoesNotExist:
-        # Handle the case where the user doesn't exist (optional)
-        user = None
+#     return render(request, 'PDemand.html', {"user":user,'form': form})
+
+
+
+# def PDemand2(request):
+#     userid = request.GET.get('userid')
+    
+#     try:
+#         user = User.objects.get(userid=userid)
+#     except User.DoesNotExist:
+#         # Handle the case where the user doesn't exist (optional)
+#         user = None
     
 
 
-    if request.method == 'POST':
-        form = PDemandForm(request.POST)
-        if form.is_valid():
-            cleaned_data = form.cleaned_data
-    else:
-        form = PDemandForm()    
+#     if request.method == 'POST':
+#         form = PDemandForm(request.POST)
+#         if form.is_valid():
+#             cleaned_data = form.cleaned_data
+#     else:
+#         form = PDemandForm()    
 
-    return render(request, 'PDemand.html' ,{"user":user,'form': form})
+#     return render(request, 'PDemand.html' ,{"user":user,'form': form})
 
 def monitir_realtime_tem_humidity(request):
     userid = request.GET.get('userid')

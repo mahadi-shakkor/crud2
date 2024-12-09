@@ -425,17 +425,16 @@ class PDemand(models.Model):
     locationid = models.ForeignKey(Location, models.DO_NOTHING, db_column='locationid', blank=True, null=True)
     p_demand_id = models.AutoField(primary_key=True)
     demandamount = models.DecimalField(db_column='DemandAmount', max_digits=10, decimal_places=2)  # Field name made lowercase.
-    ton = models.DecimalField(db_column='TON', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    mon = models.DecimalField(db_column='MON', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    kg = models.DecimalField(db_column='KG', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     demand_date_time = models.DateTimeField(db_column='Demand_Date_Time')  # Field name made lowercase.
-    city = models.CharField(db_column='CITY', max_length=100, blank=True, null=True)  # Field name made lowercase.
     state = models.CharField(db_column='STATE', max_length=100, blank=True, null=True)  # Field name made lowercase.
     area = models.CharField(db_column='AREA', max_length=255, blank=True, null=True)  # Field name made lowercase.
     season = models.CharField(db_column='SEASON', max_length=50, blank=True, null=True)  # Field name made lowercase.
     price_should_be = models.DecimalField(db_column='Price_Should_be', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     status = models.CharField(db_column='Status', max_length=50, blank=True, null=True)  # Field name made lowercase.
     comments = models.TextField(db_column='Comments', blank=True, null=True)  # Field name made lowercase.
+    mon = models.IntegerField(db_column='MON', blank=True, null=True)  # Field name made lowercase.
+    kg = models.IntegerField(db_column='KG', blank=True, null=True)  # Field name made lowercase.
+    city = models.IntegerField(db_column='CITY', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
