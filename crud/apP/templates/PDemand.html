@@ -7,11 +7,71 @@
 </head>
 <body>
   <h1>{{user.name}} demand for product</h1>
+  {% if formPD.errors %}
+    <div style="color: red;">
+        <ul>
+        {% for field, errors in formPD.errors.items %}
+            <li><strong>{{ field }}:</strong> {{ errors|join:", " }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+{% if formL.errors %}
+<div style="color: red;">
+    <ul>
+    {% for field, errors in formL.errors.items %}
+        <li><strong>{{ field }}:</strong> {{ errors|join:", " }}</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ formPD.as_p }}
+    {{formL.as_p}}
     <button type="submit">Submit</button>
 </form>
+
+<script>
+  function getCurrentLocationAndTimezone() {
+      if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+              // Get the latitude and longitude from geolocation and round them to 3 decimal places
+              var latitude = position.coords.latitude.toFixed(3);
+              var longitude = position.coords.longitude.toFixed(3);
+
+              // Set the latitude and longitude fields in the form
+              document.getElementById("id_latitude").value = latitude;
+              document.getElementById("id_longitude").value = longitude;
+
+              // Optional: Get the altitude (if available) and round to 3 decimal places
+              var altitude = position.coords.altitude;
+              if (altitude !== null) {
+                  document.getElementById("id_altitude").value = altitude.toFixed(3);
+              } else {
+                  document.getElementById("id_altitude").value = ''; // Set to empty or default value
+              }
+
+              // Get the user's current timezone using the Intl API
+              var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+              document.getElementById("id_timezone").value = timezone;
+
+          }, function() {
+              alert("Geolocation service failed.");
+          });
+      } else {
+          alert("Geolocation is not supported by this browser.");
+      }
+  }
+
+  // Call the function when the page loads
+  window.onload = function() {
+      getCurrentLocationAndTimezone();
+  }
+</script>
+
 
 
 

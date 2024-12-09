@@ -1,31 +1,84 @@
 from django import forms
+from .models import PDemand
+
+class PDemandForm(forms.ModelForm):
+    class Meta:
+        model = PDemand
+        fields = [
+            'product', 
+            'demandamount', 
+            'ton', 
+            'mon', 
+            'kg', 
+            'demand_date_time', 
+            'city', 
+            'state', 
+            'area', 
+            'season', 
+            'price_should_be', 
+            'status', 
+            'comments'
+        ]  # Exclude 'userid' and 'locationid'
+        widgets = {
+            'demand_date_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'comments': forms.Textarea(attrs={'rows': 3}),
+        }
+    
+    # Overwrite init to handle hidden or backend-only fields
+    def __init__(self, *args, **kwargs):
+        self.userid = kwargs.pop('userid', None)
+        self.locationid = kwargs.pop('locationid', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        # Manually set `userid` and `locationid` if provided
+        if self.userid:
+            instance.userid_id = self.userid
+        if self.locationid:
+            instance.locationid_id = self.locationid
+        if commit:
+            instance.save()
+        return instance
+
+
 
 from django import forms
-from datetime import datetime
+from .models import Location
 
-class PDemandForm(forms.Form):
-    product = forms.IntegerField(required=False, widget=forms.HiddenInput())  # Assuming foreign key id for simplicity
-    userid = forms.IntegerField(required=False, widget=forms.HiddenInput())  # Assuming foreign key id for simplicity
-    locationid = forms.IntegerField(required=False, widget=forms.HiddenInput())  # Assuming foreign key id for simplicity
-    p_demand_id = forms.IntegerField(widget=forms.HiddenInput())  # Primary key hidden
-    demandamount = forms.DecimalField(max_digits=10, decimal_places=2, required=True)
-    ton = forms.DecimalField(max_digits=10, decimal_places=2, required=False)
-    mon = forms.DecimalField(max_digits=10, decimal_places=2, required=False)
-    kg = forms.DecimalField(max_digits=10, decimal_places=2, required=False)
-    demand_date_time = forms.DateTimeField(
-        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-        required=True
-    )
-    city = forms.CharField(max_length=100, required=False)
-    state = forms.CharField(max_length=100, required=False)
-    area = forms.CharField(max_length=255, required=False)
-    season = forms.CharField(max_length=50, required=False)
-    price_should_be = forms.DecimalField(max_digits=10, decimal_places=2, required=False)
-    status = forms.CharField(max_length=50, required=False)
-    comments = forms.CharField(widget=forms.Textarea, required=False)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Set default datetime to current time
-        self.fields['demand_date_time'].initial = datetime.now().strftime('%Y-%m-%dT%H:%M')
-
+class LocationForm(forms.ModelForm):
+    class Meta:
+        model = Location
+        fields = [
+            'latitude',
+            'longitude',
+            'street',
+            'city',
+            'state',
+            'country',
+            'postalcode',
+            'altitude',
+            'timezone',
+        ]
+        widgets = {
+            'latitude': forms.NumberInput(attrs={'step': 0.000001}),
+            'longitude': forms.NumberInput(attrs={'step': 0.000001}),
+            'street': forms.TextInput(attrs={'placeholder': 'Enter street name'}),
+            'city': forms.TextInput(attrs={'placeholder': 'Enter city'}),
+            'state': forms.TextInput(attrs={'placeholder': 'Enter state'}),
+            'country': forms.TextInput(attrs={'placeholder': 'Enter country'}),
+            'postalcode': forms.TextInput(attrs={'placeholder': 'Enter postal code'}),
+            'altitude': forms.NumberInput(attrs={'placeholder': 'Enter altitude'}),
+            'timezone': forms.TextInput(attrs={'placeholder': 'Enter timezone'}),
+        }
+        labels = {
+            'latitude': 'Latitude',
+            'longitude': 'Longitude',
+            'street': 'Street',
+            'city': 'City',
+            'state': 'State',
+            'country': 'Country',
+            'postalcode': 'Postal Code',
+            'altitude': 'Altitude',
+            'timezone': 'Timezone',
+        }

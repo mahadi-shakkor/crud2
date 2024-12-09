@@ -10,10 +10,33 @@ from .models import *
 
 
 from django.shortcuts import render
-from .models import User, Batch  # Assuming these are the correct imports
+from .models import User, Batch  
 
+from django.shortcuts import render
+from .forms import PDemandForm
+
+
+from django.shortcuts import render, redirect
+from .forms import PDemandForm
 
 def PDemand(request):
+    if request.method == 'POST':
+        formPD = PDemandForm(request.POST, userid=request.user.id, locationid=1) 
+        formL = LocationForm(request.POST) 
+        if formPD.is_valid() and  formL.is_valid():
+            formL.save()
+            formPD.save()
+            return redirect('PDemand')  
+    else:
+        formPD = PDemandForm()
+        formL = LocationForm()
+        
+    
+    return render(request, 'PDemand.html', {'formL': formL,'formPD': formPD})
+
+
+
+def PDemand3(request):
     userid = request.GET.get('userid')
     
     try:
@@ -21,8 +44,39 @@ def PDemand(request):
     except User.DoesNotExist:
         # Handle the case where the user doesn't exist (optional)
         user = None
-    form1= PDemandForm();
-    return render(request, 'PDemand.html' ,{"user":user,"form":form1})
+    if request.method == 'POST':
+        form = PDemandForm(request.POST)
+        if form.is_valid():
+            # Process the valid form data
+            cleaned_data = form.cleaned_data
+            # Save or update database as needed
+            return render(request, '/', {'message': 'Form submitted successfully!',"user":user,'form': form})
+    else:
+        form = PDemandForm()
+    
+    return render(request, 'PDemand.html', {"user":user,'form': form})
+
+
+
+def PDemand2(request):
+    userid = request.GET.get('userid')
+    
+    try:
+        user = User.objects.get(userid=userid)
+    except User.DoesNotExist:
+        # Handle the case where the user doesn't exist (optional)
+        user = None
+    
+
+
+    if request.method == 'POST':
+        form = PDemandForm(request.POST)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+    else:
+        form = PDemandForm()    
+
+    return render(request, 'PDemand.html' ,{"user":user,'form': form})
 
 def monitir_realtime_tem_humidity(request):
     userid = request.GET.get('userid')
