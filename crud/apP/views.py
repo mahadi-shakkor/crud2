@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Batch,User,Product, Location,WirehouseManager,Retailer,Farmer,DistributorCompany,Customer,AgriculturalOfficer,Nutritionists,Supplier,Vendor
+from .forms import *
 
 
 from django.shortcuts import render
@@ -20,7 +21,8 @@ def PDemand(request):
     except User.DoesNotExist:
         # Handle the case where the user doesn't exist (optional)
         user = None
-    return render(request, 'PDemand.html' ,{"user":user})
+    form1= PDemandForm();
+    return render(request, 'PDemand.html' ,{"user":user,"form":form1})
 
 def monitir_realtime_tem_humidity(request):
     userid = request.GET.get('userid')

@@ -7,6 +7,14 @@
 </head>
 <body>
   <h1>{{user.name}} demand for product</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+
+
+
 
 
 
