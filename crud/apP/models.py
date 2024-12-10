@@ -430,7 +430,6 @@ class PDemand(models.Model):
     area = models.CharField(db_column='AREA', max_length=255, blank=True, null=True)  # Field name made lowercase.
     season = models.CharField(db_column='SEASON', max_length=50, blank=True, null=True)  # Field name made lowercase.
     price_should_be = models.DecimalField(db_column='Price_Should_be', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    status = models.CharField(db_column='Status', max_length=50, blank=True, null=True)  # Field name made lowercase.
     comments = models.TextField(db_column='Comments', blank=True, null=True)  # Field name made lowercase.
     mon = models.IntegerField(db_column='MON', blank=True, null=True)  # Field name made lowercase.
     kg = models.IntegerField(db_column='KG', blank=True, null=True)  # Field name made lowercase.

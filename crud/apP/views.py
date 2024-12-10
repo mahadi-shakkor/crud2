@@ -33,9 +33,33 @@ def PDemand(request):
                 # Get the selected value from the radio button group
         selected_option = request.POST.get('flexRadioDefault')
         product_id = request.POST.get('product_id')
+        demandamount = request.POST.get('demandamount')
+
+        demand_date_time = request.POST.get('demand_date_time')
+        state = request.POST.get('state')
+        season = request.POST.get('season')
+        area = request.POST.get('area')
+        price_should_be = request.POST.get('price_should_be')
+
+
+
+
         product = get_object_or_404(Product, product_id=product_id)
 
-        print(product.product_name)
+
+        print("---------------------------------------------------------------------------------------------------------------")
+        # Print the values in a structured and readable format
+        print(f"Selected Option: {selected_option}")
+        print(f"Product ID: {product_id}")
+        print(f"Demand Amount: {demandamount}")
+        print(f"Demand Date and Time: {demand_date_time}")
+        print(f"State: {state}")
+        print(f"area: {area}")
+        print(f"Season: {season}")
+
+
+        print("---------------------------------------------------------------------------------------------------------------")
+
 
 
         # Check which option was selected
