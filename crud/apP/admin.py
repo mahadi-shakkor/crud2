@@ -1,5 +1,5 @@
-# from django.contrib import admin
-# from .models import *
+from django.contrib import admin
+from .models import *
 
 # admin.site.register(AgriculturalOfficer)
 # admin.site.register(Batch)
@@ -35,6 +35,6 @@
 # admin.site.register(SeedStock20)
 # admin.site.register(Sensor)
 # admin.site.register(Supplier)
-# admin.site.register(User)
+admin.site.register(User)
 # admin.site.register(Wirehouse)
 # admin.site.register(WirehouseManager)

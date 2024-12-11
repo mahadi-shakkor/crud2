@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Harvest Field</title>
+</head>
+<body>
+    <h1>Create New Harvest Field</h1>
+
+    <form method="post" action="{% url 'create_harvest_field' %}">
+        {% csrf_token %}
+        
+        <div>
+            <label for="userid">User ID</label>
+            {{ form.userid }}
+        </div>
+
+        <button type="submit">Create Field</button>
+    </form>
+
+    <br>
+    <a href="{% url 'harvest_fields_search' %}">Back to Search</a>
+</body>
+</html>

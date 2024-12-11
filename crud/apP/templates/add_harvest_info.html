@@ -4,22 +4,185 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <script>
+    // JavaScript function to display selected items
+    function showSelectedItems() {
+        var selectedItems = [];
+        // Get all selected checkboxes or options
+        var checkboxes = document.querySelectorAll('input[name="items"]:checked');
+        
+        // Add selected items to the array
+        checkboxes.forEach(function(checkbox) {
+            selectedItems.push(checkbox.value);
+        });
+
+        // Show selected items in the div
+        var displayDiv = document.getElementById('selected-items');
+        if (selectedItems.length > 0) {
+            displayDiv.innerHTML = '<ul>' + selectedItems.map(item => '<li>' + item + '</li>').join('') + '</ul>';
+        } else {
+            displayDiv.innerHTML = '<p>No items selected.</p>';
+        }
+    }
+</script>
 </head>
 <body>
   
   <h1>add harvest details </h1>
   <h1>{{user.name}}</h1>
 
-  <form method="post">
-    {% csrf_token %}
 
-    <label for="product">Select Product:</label>
-    <select name="product">
-    {% for p in product %}  
-        <option value="{{ p.product_id }}">{{ p.product_name }}</option>
-    {% endfor %}
-     </select>
-<br>
+
+
+
+
+    
+
+
+
+<form method="post">
+  
+
+  {% csrf_token %}
+
+  <label for="OWNERIDharbest">Harvest OWNER ID:</label>
+        <input type="number" id="OWNERIDharbest" name="OWNERIDharbest" required min="0"  step="1">
+        <br><br>
+
+  <label for="product">Select Product:</label>
+  <select name="product">
+  {% for p in product %}  
+      <option value="{{ p.product_id }}">{{ p.product_name }}</option>
+  {% endfor %}
+   </select>
+    <br>
+    <br>
+
+
+    <label for="season">Select a season:</label>
+    <select id="season" name="season" required>
+    <option value="grishmo">Grishmo (Summer)</option>
+    <option value="borsha">Borsha (Monsoon)</option>
+    <option value="sharat">Sharat (Autumn)</option>
+    <option value="hemanta">Hemanta (Late Autumn)</option>
+    <option value="shishir">Shishir (Winter)</option>
+    <option value="basant">Basant (Spring)</option>
+    </select>
+
+
+    <br>
+
+    <label for="qualitygrade">Quality Grade:</label>
+    <input value="1" type="number" id="qualitygrade" name="qualitygrade" step="0.1" min="0" max="10" placeholder="Enter a grade (e.g., 8.5)" required><br><br>
+
+
+    <br>
+
+      <label for="notes">Your notes:</label><br>
+            <textarea id="notes" name="notes" rows="4" cols="50" placeholder="Write your notes here..."></textarea><br><br>
+
+              <br>
+              <h3>Select crops type for ur harvest filds</h3>
+            <label for="cereal">Cereal Crops</label>
+            <select id="cereal" name="cereal">
+                <option value="rice">Rice</option>
+                <option value="wheat">Wheat</option>
+                <option value="corn">Corn (Maize)</option>
+                <option value="barley">Barley</option>
+                <option value="oats">Oats</option>
+                <option value="millet">Millet</option>
+                <option value="rye">Rye</option>
+                <option value="sorghum">Sorghum</option>
+            </select>
+
+            <label for="legume">Leguminous Crops</label>
+            <select id="legume" name="legume">
+                <option value="soybean">Soybeans</option>
+                <option value="lentils">Lentils</option>
+                <option value="chickpeas">Chickpeas</option>
+                <option value="peas">Peas</option>
+                <option value="beans">Beans</option>
+                <option value="pigeon-peas">Pigeon Peas</option>
+                <option value="mung-beans">Mung Beans</option>
+            </select>
+
+            <label for="root">Root and Tuber Crops</label>
+            <select id="root" name="root">
+                <option value="potatoes">Potatoes</option>
+                <option value="sweet-potatoes">Sweet Potatoes</option>
+                <option value="cassava">Cassava (Yuca)</option>
+                <option value="yams">Yams</option>
+                <option value="carrots">Carrots</option>
+                <option value="beets">Beets</option>
+                <option value="turnips">Turnips</option>
+            </select>
+
+            <label for="oilseed">Oilseed Crops</label>
+            <select id="oilseed" name="oilseed">
+                <option value="sunflower">Sunflower</option>
+                <option value="canola">Canola (Rapeseed)</option>
+                <option value="groundnut">Groundnuts (Peanuts)</option>
+                <option value="sesame">Sesame</option>
+                <option value="flaxseeds">Flaxseeds</option>
+                <option value="safflower">Safflower</option>
+            </select>
+
+            <label for="vegetable">Vegetable Crops</label>
+            <select id="vegetable" name="vegetable">
+                <option value="tomatoes">Tomatoes</option>
+                <option value="lettuce">Lettuce</option>
+                <option value="cabbage">Cabbage</option>
+                <option value="cucumbers">Cucumbers</option>
+                <option value="spinach">Spinach</option>
+                <option value="broccoli">Broccoli</option>
+                <option value="peppers">Peppers (Bell Peppers, Chili Peppers)</option>
+            </select>
+
+            <label for="fruit">Fruit Crops</label>
+            <select id="fruit" name="fruit">
+                <option value="apples">Apples</option>
+                <option value="bananas">Bananas</option>
+                <option value="oranges">Oranges</option>
+                <option value="mangoes">Mangoes</option>
+                <option value="grapes">Grapes</option>
+                <option value="pineapples">Pineapples</option>
+                <option value="strawberries">Strawberries</option>
+            </select>
+
+            <label for="spice">Spice Crops</label>
+            <select id="spice" name="spice">
+                <option value="black-pepper">Black Pepper</option>
+                <option value="ginger">Ginger</option>
+                <option value="turmeric">Turmeric</option>
+                <option value="cardamom">Cardamom</option>
+                <option value="cloves">Cloves</option>
+            </select>
+
+             <br> 
+
+           
+          {{ soilform.as_p }}
+          <br>
+          <label for="OWNERIDharbestFilds">Harvest Filds OWNER ID:</label>
+          <input type="number" id="OWNERIDharbestFilds" name="OWNERIDharbestFilds" required min="0"  step="1">
+          <br><br>
+
+
+
+
+          
+
+
+         
+
+
+      <button type="submit">Submit</button>
+
+
+</form>
+
+<a href="{% url 'user_search' %}"><button>SEARCH ALL OWNERS HERE </button></a>
+
     <!-- <br><br>
 
     
@@ -53,7 +216,7 @@
     <label for="datetime">Current Date and Time:</label>
     <input type="text" id="datetime" name="datetime" readonly>
     <br><br>
- ############## DROPDOWN BOX 
+   ############## DROPDOWN BOX 
 
     <label for="product">Select Unit</label>
     <select name="u" id="product">
@@ -108,19 +271,18 @@
 
     <label for="longitude">Longitude:</label>
     <input type="text" id="id_longitude" name="longitude" readonly><br><br>
-## Allow user to input altitude 
+   ## Allow user to input altitude 
     <label for="altitude">Altitude (Optional):</label>
     <input type="text" id="id_altitude" name="altitude" value="null" ><br><br>
 
     <label for="timezone">Timezone:</label>
     <input type="text" id="id_timezone" name="timezone" readonly><br><br>
 
- <br>
+    <br>
         <br><br> -->
 
         
-    <button type="submit">Submit</button>
-  </form>
-  
+   
+    
 </body>
 </html>

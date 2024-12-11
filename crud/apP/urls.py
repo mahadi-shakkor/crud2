@@ -9,5 +9,8 @@ urlpatterns = [
     path('dashboard2/',views.dashboard2,name="dashboard2"),
     path('', views.user_signup_form, name='user_signup_form'),
     path('PDemand/', views.PDemandf, name='PDemand'),
+    path('user_search/', views.user_search, name='user_search'),
+     path('harvest_fields/search/', views.harvest_fields_search, name='harvest_fields_search'),
+    path('harvest_fields/create/', views.create_harvest_field, name='create_harvest_field'),
     
 ]

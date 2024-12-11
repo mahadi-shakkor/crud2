@@ -6,26 +6,164 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 
 import datetime
+from django.shortcuts import render
+from .forms import *
+from .models import User
+
+def user_search(request):
+    form = UserSearchForm(request.GET or None)  # Use GET method to keep data in URL
+    users = User.objects.all()  # Default to all users if no filter is applied
+    
+    if form.is_valid():
+        name = form.cleaned_data.get('name')
+        usertype = form.cleaned_data.get('usertype')
+        email = form.cleaned_data.get('email')
+        
+        if name:
+            users = users.filter(name__icontains=name)  # Case-insensitive search for name
+        if usertype:
+            users = users.filter(usertype__icontains=usertype)  # Case-insensitive search for usertype
+        if email:
+            users = users.filter(email__icontains=email)  # Case-insensitive search for usertype    
+    
+    return render(request, 'user_search.html', {'form': form, 'users': users})
+
+from django.shortcuts import render, redirect
+from .forms import HarvestFieldsSearchForm, HarvestFieldsCreateForm
+from .models import HarvestFields
+
+def harvest_fields_search(request):
+    form = HarvestFieldsSearchForm(request.GET or None)
+    harvest_fields = HarvestFields.objects.all()  # Default to all harvest fields
+    
+    if form.is_valid():
+        userid = form.cleaned_data.get('userid')
+        
+        if userid:
+            harvest_fields = harvest_fields.filter(userid=userid)  # Filter by user ID
+    
+    return render(request, 'harvest_fields_search.html', {'form': form, 'harvest_fields': harvest_fields})
+
+def create_harvest_field(request):
+    if request.method == 'POST':
+        form = HarvestFieldsCreateForm(request.POST)
+        if form.is_valid():
+            form.save()  # Save the new harvest field
+            return redirect('harvest_fields_search')  # Redirect to search page after saving
+    else:
+        form = HarvestFieldsCreateForm()
+
+    return render(request, 'create_harvest_field.html', {'form': form})
+
+
 
 def add_harvest_info(request):
+    form = SoilForm()  
+
     userid = request.GET.get('userid')
-    products = Product.objects.all() 
+    products = Product.objects.all()
+    users = User.objects.all()  
     
     try:
         user = User.objects.get(userid=userid)
     except User.DoesNotExist:
         # Handle the case where the user doesn't exist (optional)
         user = None
+
+
     if request.method == 'POST':
+        form = SoilForm(request.POST)
+        if form.is_valid():
+            selected_soil_types = form.cleaned_data['soil_types']
+            # Convert list to a string for display purposes
+            soil_types_display = ', '.join(selected_soil_types)
+            print("soil_types_display",soil_types_display)
+        else:
+            form = SoilForm()        
+
+
         product_id = request.POST.get('product')
+        OWNERIDharbest = request.POST.get('OWNERIDharbest')
+        OWNERIDharbestFilds = request.POST.get('OWNERIDharbestFilds')
+
+        print(OWNERIDharbest,OWNERIDharbestFilds,"===============")
+        season = request.POST.get('season')
+        notes = request.POST.get('notes')
         product = get_object_or_404(Product, product_id=product_id)
-        print(product.product_name)
+        qualitygrade = request.POST.get('qualitygrade')
 
 
-        pass
+
+        # soilType = request.POST.get('soil-types')
+        #     # Printing the values to the console
+        # print(f"Cereal---------------------------: {cereal}")
+        # print(f"Legume: {legume}")
+        # print(f"Root: {root}")
+        # print(f"Oilseed: {oilseed}")
+        # print(f"Vegetable: {vegetable}")
+        # print(f"Fruit: {fruit}")
+        # print(f"Spice: {spice}")
+
+        # print(f"soilType---------------------------: {soilType}")
+
+
+        
+        # print(product.product_name)
+        # print(season)
+        # print(qualitygrade)
+        # print(notes)
+        try:
+            userH = User.objects.get(userid=int(OWNERIDharbest))
+        except User.DoesNotExist:
+        # Handle the case where the user doesn't exist (optional)
+            user = None
+        try:
+            userHF = User.objects.get(userid=int(OWNERIDharbest))
+        except User.DoesNotExist:
+        # Handle the case where the user doesn't exist (optional)
+            user = None    
+        fields=HarvestFields.objects.create(userid=userHF)
+        harvest = Harvest.objects.create(notes=notes,qualitygrade=qualitygrade,product=product,userid=userH,season=season)
+
+        cereal = request.POST.get('cereal')
+        legume = request.POST.get('legume')
+        root = request.POST.get('root')
+        oilseed = request.POST.get('oilseed')
+        vegetable = request.POST.get('vegetable')
+        fruit = request.POST.get('fruit')
+        spice = request.POST.get('spice')
+        if(cereal):
+            HarvestFieldsCropsType.objects.create(fields=fields)
+
+
+
+            
+
+
+
+
+
+#         class HarvestFieldsCropsType(models.Model):
+#     fields = models.OneToOneField(HarvestFields, models.DO_NOTHING, db_column='FIELDS_ID', primary_key=True)  # Field name made lowercase. The composite primary key (FIELDS_ID, CROP_TYPE) found, that is not supported. The first column is selected.
+#     crop_type = models.CharField(db_column='CROP_TYPE', max_length=255)  # Field name made lowercase.
+
+#     class Meta:
+#         managed = False
+#         db_table = 'harvest_fields_crops_type'
+#         unique_together = (('fields', 'crop_type'),)
+
+
+# class HarvestFieldsSoilType(models.Model):
+#     fields = models.OneToOneField(HarvestFields, models.DO_NOTHING, db_column='FIELDS_ID', primary_key=True)  # Field name made lowercase. The composite primary key (FIELDS_ID, SOIL_TYPE) found, that is not supported. The first column is selected.
+#     soil_type = models.CharField(db_column='SOIL_TYPE', max_length=255)  # Field name made lowercase.
+
+#     class Meta:
+#         managed = False
+#         db_table = 'harvest_fields_soil_type'
+#         unique_together = (('fields', 'soil_type'),)
 
     
-    return render(request, 'add_harvest_info.html',{"user":user,"product":products})
+    return render(request, 'add_harvest_info.html',{"soilform":form,"user":user,"product":products,"users":users})
 
 
 

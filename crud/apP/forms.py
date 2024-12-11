@@ -5,6 +5,52 @@ from .models import Location
 from django import forms
 from .models import Product
 from datetime import datetime
+# forms.py
+from django import forms
+from django import forms
+
+class UserSearchForm(forms.Form):
+    name = forms.CharField(required=False, max_length=255, label='Name')
+    usertype = forms.CharField(required=False, max_length=50, label='User Type')
+    email = forms.CharField(required=False, max_length=50, label='Email')
+
+from django import forms
+from .models import HarvestFields, User
+
+class HarvestFieldsSearchForm(forms.Form):
+    userid = forms.ModelChoiceField(queryset=User.objects.all(), required=False, label='User ID')
+
+class HarvestFieldsCreateForm(forms.ModelForm):
+    class Meta:
+        model = HarvestFields
+        fields = ['userid']  # Add other fields as needed
+
+
+class SoilForm(forms.Form):
+    SOIL_TYPES = [
+        ('loam', 'Loam'),
+        ('clay', 'Clay'),
+        ('silt', 'Silt'),
+        ('sand', 'Sand'),
+        ('peat', 'Peat'),
+        ('chalk', 'Chalk'),
+        ('saline', 'Saline'),
+        ('loamy-sand', 'Loamy Sand'),
+        ('clay-loam', 'Clay Loam'),
+        ('alluvial', 'Alluvial'),
+        ('regur-soil', 'Regur Soil'),
+        ('arid-soil', 'Arid Soil'),
+        ('forest-soil', 'Forest Soil'),
+        ('terra-rossa', 'Terra Rossa'),
+    ]
+    
+    soil_types = forms.MultipleChoiceField(
+        choices=SOIL_TYPES,
+        widget=forms.CheckboxSelectMultiple
+    )
+
+
+
 
 class ProductDemandForm1(forms.Form):
     product = forms.ChoiceField(choices=[], required=True, label="Select Product")

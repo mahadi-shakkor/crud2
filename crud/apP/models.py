@@ -262,10 +262,10 @@ class FinancialsupportCustomerToFarmer(models.Model):
 class Harvest(models.Model):
     hid = models.AutoField(db_column='HID', primary_key=True)  # Field name made lowercase.
     season = models.CharField(db_column='SEASON', max_length=50)  # Field name made lowercase.
-    qualitygrade = models.CharField(db_column='QualityGrade', max_length=10, blank=True, null=True)  # Field name made lowercase.
     notes = models.TextField(db_column='Notes', blank=True, null=True)  # Field name made lowercase.
     product = models.ForeignKey('Product', models.DO_NOTHING, db_column='Product_ID', blank=True, null=True)  # Field name made lowercase.
     userid = models.ForeignKey('User', models.DO_NOTHING, db_column='USERID', blank=True, null=True)  # Field name made lowercase.
+    qualitygrade = models.DecimalField(db_column='QualityGrade', max_digits=3, decimal_places=1, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
