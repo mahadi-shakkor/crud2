@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <h1>add harvest details </h1>
+  <h1>{{user.name}}</h1>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <label for="product">Select Product:</label>
+    <select name="product">
+    {% for p in product %}  
+        <option value="{{ p.product_id }}">{{ p.product_name }}</option>
+    {% endfor %}
+     </select>
+<br>
+    <!-- <br><br>
+
+    
+    <label>
+        <input type="checkbox" name="sell" > SELL
+    </label>
+    <br>
+    <label>
+        <input type="checkbox" name="stor" > STORE
+    </label>
+    <br>
+    <br>
+
+
+    <label for="temperature">Enter Temperature to Stor (°C):</label>
+    <input type="number" value="20.0" id="temperature" name="temperature" min="-50" max="50" step="0.1" placeholder="Enter temperature in Celsius">
+    <br><br>
+
+
+
+    <label for="humidity">Enter Humidity to stor (%)</label>
+    <input type="number" value="60.5" name="humidity" id="humidity" step="0.01" min="0" max="100" placeholder="e.g. 60.5" required>
+    <br><br>
+
+
+    <label for="c">number of batch u want to make </label>
+    <input type="number" value="1" id="c" name="c" step="1" min="1" placeholder="Enter a whole number" required>
+    <br><br>
+
+
+    <label for="datetime">Current Date and Time:</label>
+    <input type="text" id="datetime" name="datetime" readonly>
+    <br><br>
+ ############## DROPDOWN BOX 
+
+    <label for="product">Select Unit</label>
+    <select name="u" id="product">
+      <option value="KG">KG</option>
+      <option value="TON">TON</option>
+      <option value="MON">MON</option>
+    </select>
+    
+    <br>
+    <br>
+
+
+    <label for="float_value">Enter Per Unit Price</label>
+    <input type="number" value="100" id="float_value" name="float_value" step="0.01" placeholder="e.g. 10.5" required>
+    <br><br>
+
+
+
+    <label for="description">Description:</label>
+    <textarea id="description" valu="good"  name="description" rows="7" cols="50" placeholder="Enter your description here..." required ></textarea>
+    <br><br>
+
+    <label for="product_amount">Enter Product Amount per Batch:</label>
+    <input type="number" value="10" id="product_amount" name="product_amount" step="0.01" placeholder="e.g. 10.5" required>
+    <br><br>
+
+
+    <label for=""><b>Batch location Details:</b></label><br><br>
+    <label for="street">Use user Location To Batch Location</label>
+    <input type="checkbox"  id="street" name="Set_my_L_batch_L" ><br><br>
+
+
+
+
+
+
+
+    <label for="street">Street:</label>
+    <input type="text" id="street" name="street" value="{{ request.POST.street }}"><br><br>
+
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city" value="{{ request.POST.city }}"><br><br>
+
+    <label for="state">State:</label>
+    <input type="text" id="state" name="state" value="{{ request.POST.state }}"><br><br>
+
+    <label for="country">Country:</label>
+    <input type="text" id="country" name="country" value="{{ request.POST.country }}"><br><br>
+
+    <label for="latitude">Latitude:</label>
+    <input type="text" id="id_latitude" name="latitude" readonly><br><br>
+
+    <label for="longitude">Longitude:</label>
+    <input type="text" id="id_longitude" name="longitude" readonly><br><br>
+## Allow user to input altitude 
+    <label for="altitude">Altitude (Optional):</label>
+    <input type="text" id="id_altitude" name="altitude" value="null" ><br><br>
+
+    <label for="timezone">Timezone:</label>
+    <input type="text" id="id_timezone" name="timezone" readonly><br><br>
+
+ <br>
+        <br><br> -->
+
+        
+    <button type="submit">Submit</button>
+  </form>
+  
+</body>
+</html>

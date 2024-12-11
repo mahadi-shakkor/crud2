@@ -7,6 +7,28 @@ from django.shortcuts import render, get_object_or_404
 
 import datetime
 
+def add_harvest_info(request):
+    userid = request.GET.get('userid')
+    products = Product.objects.all() 
+    
+    try:
+        user = User.objects.get(userid=userid)
+    except User.DoesNotExist:
+        # Handle the case where the user doesn't exist (optional)
+        user = None
+    if request.method == 'POST':
+        product_id = request.POST.get('product')
+        product = get_object_or_404(Product, product_id=product_id)
+        print(product.product_name)
+
+
+        pass
+
+    
+    return render(request, 'add_harvest_info.html',{"user":user,"product":products})
+
+
+
 def PDemandf(request):
 
     
@@ -91,6 +113,8 @@ def PDemandf(request):
     else:
         
         location = LocationForm()
+
+    
        
 
     return render(request, 'PDemand.html', {"products":products,"user": user, 'location': location})
@@ -224,26 +248,26 @@ def add_batch_to_invantory(request):
                   )
             
 
+        for i in range(int(batch_count)):
+            Batch.objects.create(
+                product=p1,
+                user=user,
+                location=location,                
+                product_amount=product_amount,  # Product Amount
+                sell=sell,  # SELL as True (1)
+                store=stor,  # STORE as True (1)
+                optimum_temperature_to_store=temperature,  # Optimum Temperature
+                optimum_humidity_to_store=humidity,  # Optimum Humidity
+                product_unit_price=per_unit_price,  # Product Unit Price
+                kg=KG,  # Example Unit for KG (can be None or another unit if needed)
+                ton=TON,  # Example Unit for TON (can be None or another unit if needed)
+                mon=MON,  # Example Unit for MON (can be None or another unit if needed)
+                batch_description=description,  # Description of the batch
+                date_time_batch_created=datetime.now(),  # Current datetime
+            )
 
         
-        Batch.objects.create(
-        location=location,  
-        # Location foreign key               
-        product_amount=product_amount,  # Product Amount
-        sell=sell,  # SELL as True (1)
-        store=stor,  # STORE as True (1)
-        optimum_temperature_to_store=temperature,  # Optimum Temperature
-        optimum_humidity_to_store=humidity,  # Optimum Humidity
-        product_unit_price=per_unit_price,  # Product Unit Price
-        kg=KG,  # Example Unit for KG (can be None or another unit if needed)
-        ton=TON,  # Example Unit for TON (can be None or another unit if needed)
-        mon=MON,  # Example Unit for MON (can be None or another unit if needed)
-        batch_description=description,  # Description of the batch
-        date_time_batch_created=datetime.now(),  # Current datetime
-        # user=user, 
-        # User foreign key
-        # product=product 
-        )
+        
 
         
 

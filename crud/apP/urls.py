@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('monitir_realtime_tem_humidity/',views.monitir_realtime_tem_humidity,name='monitir_realtime_tem_humidity'),
+     path('add_harvest_info/',views.add_harvest_info,name='add_harvest_info'),
     path('add_batch_to_invantory/',views.add_batch_to_invantory,name='add_batch_to_invantory'),
     path('signup2/',views.signup2,name="signup2"),
     path('dashboard2/',views.dashboard2,name="dashboard2"),
