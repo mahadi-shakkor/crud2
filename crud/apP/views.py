@@ -5,9 +5,10 @@ from django.shortcuts import render
 
 from django.shortcuts import render, get_object_or_404
 
+import datetime
 
+def PDemandf(request):
 
-def PDemand(request):
     
     userid = request.GET.get('userid')  
     user = get_object_or_404(User, userid=userid)  
@@ -32,6 +33,8 @@ def PDemand(request):
 
                 # Get the selected value from the radio button group
         selected_option = request.POST.get('flexRadioDefault')
+        comments = request.POST.get('comments')
+
         product_id = request.POST.get('product_id')
         demandamount = request.POST.get('demandamount')
 
@@ -72,6 +75,9 @@ def PDemand(request):
         else:
             message = "No valid option selected."
         print(message)
+
+        l = PDemand.objects.create(price_should_be=price_should_be,demandamount=demandamount,demand_date_time=demand_date_time,comments=comments,season=season,area=area,state=state,product_id=product_id,locationid=location_instance,userid=user,)
+
         # location.save()
                
        

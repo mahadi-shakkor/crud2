@@ -433,7 +433,7 @@ class PDemand(models.Model):
     comments = models.TextField(db_column='Comments', blank=True, null=True)  # Field name made lowercase.
     mon = models.IntegerField(db_column='MON', blank=True, null=True)  # Field name made lowercase.
     kg = models.IntegerField(db_column='KG', blank=True, null=True)  # Field name made lowercase.
-    city = models.IntegerField(db_column='CITY', blank=True, null=True)  # Field name made lowercase.
+    ton = models.IntegerField(db_column='TON', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
