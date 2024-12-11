@@ -1,11 +1,3 @@
-Push Subsequent Changes: After making changes to your project, stage, commit, and push them to GitHub:
-
-bash
-Copy code
-git add .
-git commit -m "  "
-git push origin main
-git push origin newb:main
 
 --------------
 git clone https://github.com/mahadi-shakkor/crud2.git
@@ -21,7 +13,7 @@ git push origin newb:main
 git push origin newb
   
 
-  
+
 ---------------
 after downlode grom github 
 open in vs code then 
