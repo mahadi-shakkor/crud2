@@ -76,7 +76,7 @@ def PDemandf(request):
         #     message = "No valid option selected."
         # print(message)
 
-        l = PDemand.objects.create(ton=(selected_option=="TON"),price_should_be=price_should_be,demandamount=demandamount,demand_date_time=demand_date_time,comments=comments,season=season,area=area,state=state,product_id=product_id,locationid=location_instance,userid=user,)
+        l = PDemand.objects.create(mon=(selected_option=="MON"),kg=(selected_option=="KG"),ton=(selected_option=="TON"),price_should_be=price_should_be,demandamount=demandamount,demand_date_time=demand_date_time,comments=comments,season=season,area=area,state=state,product_id=product_id,locationid=location_instance,userid=user,)
 
         # location.save()
                

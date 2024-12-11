@@ -9,6 +9,7 @@ git commit -m "  "
 git push origin main
 git push origin newb:main
 
+
 --------ADD file in github
 It looks like you're trying to push changes to GitHub, but you have some modified and untracked files that are not staged for commit. Here's how you can resolve the situation step by step:
 git add ../git.txt
