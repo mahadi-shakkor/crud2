@@ -1,0 +1,10 @@
+git clone https://github.com/mahadi-shakkor/crud2.git
+cd crud2
+git checkout 70e024cff69285f21b9718777146e05fb36fa94c ## branch hash code 
+git switch -c new-branch-name
+
+---
+git add .
+git commit -m "  "
+git push origin main
+git push origin newb:main
