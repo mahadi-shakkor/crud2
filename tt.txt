@@ -8,3 +8,65 @@ git add .
 git commit -m "  "
 git push origin main
 git push origin newb:main
+
+--------ADD file in github
+It looks like you're trying to push changes to GitHub, but you have some modified and untracked files that are not staged for commit. Here's how you can resolve the situation step by step:
+git add ../git.txt
+git add ../tt.txt
+git status
+git commit -m "Add git.txt and tt.txt with new changes"
+git push origin newb:main
+git push origin newb
+
+
+### Steps to Stage and Commit Changes
+
+1. **Stage the modified file**:
+   - You have a modified file `../git.txt`. To stage it for commit, run the following command:
+   
+     ```bash
+     git add ../git.txt
+     ```
+
+2. **Stage the untracked file**:
+   - You also have an untracked file `../tt.txt`. To stage this file as well, run:
+   
+     ```bash
+     git add ../tt.txt
+     ```
+
+3. **Check the status**:
+   - After staging, you can check the status to ensure the files are added correctly:
+   
+     ```bash
+     git status
+     ```
+
+     This should show both `git.txt` and `tt.txt` as staged for commit.
+
+4. **Commit the changes**:
+   - Once the files are staged, you need to commit them with a meaningful message:
+   
+     ```bash
+     git commit -m "Add git.txt and tt.txt with new changes"
+     ```
+
+5. **Push the changes to the remote repository**:
+   - After committing the changes, you can push them to the `main` branch on GitHub:
+   
+     ```bash
+     git push origin newb:main
+     ```
+
+### Explanation:
+- `git add <file>` stages the file to be committed.
+- `git commit -m "<message>"` commits the staged changes with a description.
+- `git push origin <branch>:<remote>` pushes the changes to the remote repository (in this case, pushing from `newb` to `main`).
+
+If the `newb` branch doesn’t exist remotely, you may need to create a new branch or push it as a new branch by running:
+
+```bash
+git push origin newb
+```
+
+Let me know if you run into any issues!
