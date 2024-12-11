@@ -65,18 +65,18 @@ def PDemandf(request):
 
 
 
-        # Check which option was selected
-        if selected_option == "KG":
-            message = "You selected KG."
-        elif selected_option == "TON":
-            message = "You selected TON."
-        elif selected_option == "MON":
-            message = "You selected MON."
-        else:
-            message = "No valid option selected."
-        print(message)
+        # # Check which option was selected
+        # if selected_option == "KG":
+        #     message = "You selected KG"
+        # elif selected_option == "TON":
+        #     message = "You selected TON."
+        # elif selected_option == "MON":
+        #     message = "You selected MON."
+        # else:
+        #     message = "No valid option selected."
+        # print(message)
 
-        l = PDemand.objects.create(price_should_be=price_should_be,demandamount=demandamount,demand_date_time=demand_date_time,comments=comments,season=season,area=area,state=state,product_id=product_id,locationid=location_instance,userid=user,)
+        l = PDemand.objects.create(ton=(selected_option=="TON"),price_should_be=price_should_be,demandamount=demandamount,demand_date_time=demand_date_time,comments=comments,season=season,area=area,state=state,product_id=product_id,locationid=location_instance,userid=user,)
 
         # location.save()
                
