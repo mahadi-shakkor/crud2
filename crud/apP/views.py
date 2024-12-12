@@ -21,7 +21,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
-@api_view(['GET','PUT','POST'])
+@api_view(['GET','PUT','POST','DELLET'])
 @permission_classes([AllowAny])
 def index(request):
 
@@ -54,7 +54,7 @@ from rest_framework.response import Response
 from apP.models import Person
 from apP.serializers import PeopleSerializer
 
-@api_view(['GET', 'POST','PUT','PATCH'])
+@api_view(['GET', 'POST','PUT','PATCH','DELETE'])
 @permission_classes([AllowAny])
 def people(request):
     if request.method == "GET":
@@ -86,12 +86,20 @@ def people(request):
     elif request.method == "PATCH":##  partial update
 
         data = request.data
-        serializer = PeopleSerializer(data=data,partial=True)
+        obj=Person.objects.get(id = data['id'])
+
+        serializer = PeopleSerializer(obj,data=data,partial=True)
         if serializer.is_valid():  # Call the method with parentheses
             serializer.save()
             return Response(serializer.data)  # Use Response to return data
         
         return Response(serializer.errors)  # Return errors if validation fails
+    
+    else:
+        data=request.data
+        obj=Person.objects.get(id=data['id'])
+        obj.delete()
+        return Response({'message':'person deletted'})
 
 
 
