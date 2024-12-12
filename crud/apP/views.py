@@ -54,7 +54,7 @@ from rest_framework.response import Response
 from apP.models import Person
 from apP.serializers import PeopleSerializer
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST','PUT','PATCH'])
 @permission_classes([AllowAny])
 def people(request):
     if request.method == "GET":
@@ -62,9 +62,31 @@ def people(request):
         serializer = PeopleSerializer(obj, many=True)
         return Response(serializer.data)
     
-    elif request.method == "POST":
+    elif request.method == "POST":## 
         data = request.data
         serializer = PeopleSerializer(data=data)
+        if serializer.is_valid():  # Call the method with parentheses
+            serializer.save()
+            return Response(serializer.data)  # Use Response to return data
+        
+        return Response(serializer.errors)  # Return errors if validation fails
+    
+
+    elif request.method == "PUT":## full update
+        data = request.data
+        serializer = PeopleSerializer(data=data)
+        if serializer.is_valid():  # Call the method with parentheses
+            serializer.save()
+            return Response(serializer.data)  # Use Response to return data
+        
+        return Response(serializer.errors)  # Return errors if validation fails
+    
+
+
+    elif request.method == "PATCH":##  partial update
+
+        data = request.data
+        serializer = PeopleSerializer(data=data,partial=True)
         if serializer.is_valid():  # Call the method with parentheses
             serializer.save()
             return Response(serializer.data)  # Use Response to return data
