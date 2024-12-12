@@ -10,6 +10,55 @@ from django.shortcuts import render
 from .forms import *
 from .models import User
 
+from rest_framework import viewsets
+from .models import HarvestFields
+from .serializers import HarvestFieldsSerializer
+
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+
+@api_view(['GET','PUT','POST'])
+@permission_classes([AllowAny])
+def index(request):
+
+    if request.method=="GET":
+        print("get")
+        cources={
+
+            "xGET":"x",
+            "yGET":"y"
+        }
+        return Response(cources)
+
+    if request.method=="POST":
+        data=request.data
+        print(data)
+        print('post')
+        cources={
+
+            "xpost":"x",
+            "yPOST":"y"
+        }
+        return Response(cources)
+
+
+     
+    
+
+
+
+
+
+
+class HarvestFieldsViewSet(viewsets.ModelViewSet):
+    queryset = HarvestFields.objects.all()
+    serializer_class = HarvestFieldsSerializer
+
+
 def user_search(request):
     form = UserSearchForm(request.GET or None)  # Use GET method to keep data in URL
     users = User.objects.all()  # Default to all users if no filter is applied
@@ -29,31 +78,54 @@ def user_search(request):
     return render(request, 'user_search.html', {'form': form, 'users': users})
 
 from django.shortcuts import render, redirect
-from .forms import HarvestFieldsSearchForm, HarvestFieldsCreateForm
+
 from .models import HarvestFields
 
-def harvest_fields_search(request):
-    form = HarvestFieldsSearchForm(request.GET or None)
-    harvest_fields = HarvestFields.objects.all()  # Default to all harvest fields
-    
-    if form.is_valid():
-        userid = form.cleaned_data.get('userid')
-        
-        if userid:
-            harvest_fields = harvest_fields.filter(userid=userid)  # Filter by user ID
-    
-    return render(request, 'harvest_fields_search.html', {'form': form, 'harvest_fields': harvest_fields})
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import HarvestFieldsForm
+from .models import HarvestFields
 
+# Create a new Harvest Field
 def create_harvest_field(request):
     if request.method == 'POST':
-        form = HarvestFieldsCreateForm(request.POST)
+        form = HarvestFieldsForm(request.POST)
         if form.is_valid():
             form.save()  # Save the new harvest field
-            return redirect('harvest_fields_search')  # Redirect to search page after saving
+            return redirect('harvest_fields_list')  # Redirect to the list of harvest fields
     else:
-        form = HarvestFieldsCreateForm()
+        form = HarvestFieldsForm()
 
-    return render(request, 'create_harvest_field.html', {'form': form})
+    return render(request, 'harvest_fields_form.html', {'form': form, 'action': 'Create'})
+
+# View Harvest Fields List
+def harvest_fields_list(request):
+    harvest_fields = HarvestFields.objects.all()  # Get all harvest fields
+    return render(request, 'harvest_fields_list.html', {'harvest_fields': harvest_fields})
+
+# Update a Harvest Field
+def update_harvest_field(request, fields_id):
+    harvest_field = get_object_or_404(HarvestFields, fields_id=fields_id)
+
+    if request.method == 'POST':
+        form = HarvestFieldsForm(request.POST, instance=harvest_field)
+        if form.is_valid():
+            form.save()  # Update the harvest field
+            return redirect('harvest_fields_list')  # Redirect to the list of harvest fields
+    else:
+        form = HarvestFieldsForm(instance=harvest_field)
+
+    return render(request, 'harvest_fields_form.html', {'form': form, 'action': 'Update'})
+
+# Delete a Harvest Field
+def delete_harvest_field(request, fields_id):
+    harvest_field = get_object_or_404(HarvestFields, fields_id=fields_id)
+
+    if request.method == 'POST':
+        harvest_field.delete()  # Delete the harvest field
+        return redirect('harvest_fields_list')  # Redirect to the list of harvest fields
+
+    return render(request, 'harvest_fields_confirm_delete.html', {'harvest_field': harvest_field})
+
 
 
 

@@ -14,16 +14,15 @@ class UserSearchForm(forms.Form):
     usertype = forms.CharField(required=False, max_length=50, label='User Type')
     email = forms.CharField(required=False, max_length=50, label='Email')
 
+
 from django import forms
-from .models import HarvestFields, User
+from .models import HarvestFields
 
-class HarvestFieldsSearchForm(forms.Form):
-    userid = forms.ModelChoiceField(queryset=User.objects.all(), required=False, label='User ID')
-
-class HarvestFieldsCreateForm(forms.ModelForm):
+class HarvestFieldsForm(forms.ModelForm):
     class Meta:
         model = HarvestFields
-        fields = ['userid']  # Add other fields as needed
+        fields = ['userid']  # Add other fields if needed
+
 
 
 class SoilForm(forms.Form):

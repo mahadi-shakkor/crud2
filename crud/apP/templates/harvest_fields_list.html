@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvest Fields List</title>
+</head>
+<body>
+    <h1>Harvest Fields List</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Field ID</th>
+                <th>User ID</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for field in harvest_fields %}
+                <tr>
+                    <td>{{ field.fields_id }}</td>
+                    <td>{{ field.userid }}</td>
+                    <td>
+                        <a href="{% url 'update_harvest_field' field.fields_id %}">Edit</a> |
+                        <a href="{% url 'delete_harvest_field' field.fields_id %}">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">No harvest fields found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="{% url 'create_harvest_field' %}">Create New Harvest Field</a>
+</body>
+</html>
