@@ -25,4 +25,9 @@ urlpatterns = [
     # DRF API URL for HarvestFields
     path('', include(router.urls)),  # Include the DRF URLs in the existing URL pattern
     path('index/', views.index),
+    path('people/', views.people),
+   
+   
+
+    
 ]

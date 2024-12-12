@@ -1,5 +1,13 @@
 from rest_framework import serializers
-from .models import HarvestFields
+from .models import *
+
+class PeopleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Person
+        fields='__all__'
+
+
+
 
 class HarvestFieldsSerializer(serializers.ModelSerializer):
     class Meta:

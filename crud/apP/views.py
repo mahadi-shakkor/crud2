@@ -26,7 +26,7 @@ from rest_framework.response import Response
 def index(request):
 
     if request.method=="GET":
-        print(request.GET.get('name'))
+        print(request.GET.get('name'))  
         print("get")
         cources={
 
@@ -48,7 +48,33 @@ def index(request):
         return Response(cources)
 
 
-     
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from apP.models import Person
+from apP.serializers import PeopleSerializer
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
+def people(request):
+    if request.method == "GET":
+        obj = Person.objects.all()
+        serializer = PeopleSerializer(obj, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == "POST":
+        data = request.data
+        serializer = PeopleSerializer(data=data)
+        if serializer.is_valid():  # Call the method with parentheses
+            serializer.save()
+            return Response(serializer.data)  # Use Response to return data
+        
+        return Response(serializer.errors)  # Return errors if validation fails
+
+
+
+
+
     
 
 
