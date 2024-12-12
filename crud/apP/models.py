@@ -1,15 +1,20 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
+
 from django.db import models
 
+class Color(models.Model):
+    color_name=models.CharField(max_length=100)
+
+    def __str__(self) ->    str:
+        return self.color_name 
+
+
 class Person(models.Model):
+    color=models.ForeignKey(Color,null=True,blank=True,on_delete=models.CASCADE,related_name="color")
     name=models.CharField(max_length=100 )
     age=models.IntegerField()
+
+
+
 
 class AgriculturalOfficer(models.Model):
     aid = models.OneToOneField('User', models.DO_NOTHING, db_column='AID', primary_key=True)  # Field name made lowercase.

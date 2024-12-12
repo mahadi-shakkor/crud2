@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import *
-
+admin.site.register(Color)
+admin.site.register(Person)
 # admin.site.register(AgriculturalOfficer)
 # admin.site.register(Batch)
 # admin.site.register(BatchPurchaseRequest)

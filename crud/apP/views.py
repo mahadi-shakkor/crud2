@@ -58,7 +58,7 @@ from apP.serializers import PeopleSerializer
 @permission_classes([AllowAny])
 def people(request):
     if request.method == "GET":
-        obj = Person.objects.all()
+        obj = Person.objects.filter(color__isnull = False)
         serializer = PeopleSerializer(obj, many=True)
         return Response(serializer.data)
     
