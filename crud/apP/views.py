@@ -26,6 +26,7 @@ from rest_framework.response import Response
 def index(request):
 
     if request.method=="GET":
+        print(request.GET.get('name'))
         print("get")
         cources={
 
@@ -36,6 +37,7 @@ def index(request):
 
     if request.method=="POST":
         data=request.data
+        
         print(data)
         print('post')
         cources={
