@@ -6,6 +6,11 @@ class PeopleSerializer(serializers.ModelSerializer):
         model = Person
         fields='__all__'
 
+    def validate(self, data):
+        if data['age']<18:
+            raise serializers.ValidationError('Age have to be gretter than 18')
+        return data
+
 
 
 

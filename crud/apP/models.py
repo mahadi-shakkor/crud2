@@ -8,9 +8,9 @@
 from django.db import models
 
 class Person(models.Model):
-    name=models.CharField(max_length=100)
+    name=models.CharField(max_length=100 )
     age=models.IntegerField()
-    
+
 class AgriculturalOfficer(models.Model):
     aid = models.OneToOneField('User', models.DO_NOTHING, db_column='AID', primary_key=True)  # Field name made lowercase.
     region = models.CharField(db_column='Region', max_length=255, blank=True, null=True)  # Field name made lowercase.
