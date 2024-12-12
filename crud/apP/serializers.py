@@ -9,6 +9,10 @@ class PeopleSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data['age']<18:
             raise serializers.ValidationError('Age have to be gretter than 18')
+        special_characters = "!@#$%^&*()-+?_=,<>/"
+        if any(c in special_characters for c in data['name']):
+            raise serializers.ValidationError("Name cannot contain special characters.")
+
         return data
 
 
