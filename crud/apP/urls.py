@@ -25,4 +25,7 @@ urlpatterns = [
     # DRF API URL for HarvestFields
     path('', include(router.urls)),  # Include the DRF URLs in the existing URL pattern
     path('index/', views.index),
+
+    path('asign_sensor_to_batches/', views.asign_sensor_to_batches,name='asign_sensor_to_batches'),
+
 ]

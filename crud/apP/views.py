@@ -21,6 +21,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
+def asign_sensor_to_batches(request):
+    return render(request,'asign_sensor_to_batches.html')
+
 @api_view(['GET','PUT','POST'])
 @permission_classes([AllowAny])
 def index(request):
