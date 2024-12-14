@@ -10,7 +10,7 @@
     <title>Document</title>
 </head>
 <body>
-  
+   
     <h1>dashboard <br> welcome <br>
       name :{{user.name}} <br>
        ID:{{user.userid}} <br>
@@ -25,14 +25,16 @@
       <li><a href="{% url 'monitir_realtime_tem_humidity' %}?userid={{user.userid}}">Monotor realtime temperature Humidity</a></li>
       <li><a href="{% url 'PDemand' %}?userid={{user.userid}}">demand_for_product</a></li>
       <li><a href="{% url 'add_harvest_info' %}?userid={{user.userid}}">add_harvest_info</a></li>
-      
-       <li><a href="{% url 'asign_sensor_to_batches' %}?userid={{user.userid}}">asign_sensor_to_batches</a></li>
 
+       <li><a href="{% url 'asign_sensor_to_batches' %}?userid={{user.userid}}">asign_sensor_to_batches</a></li>
+   
 
       <br><br><br>
 
       <label for="" >Admin</label>
       <li><a href="http://127.0.0.1:8000/admin/apP/product/"  target="_blank">ADD_NEW_PRODUCT also Edit  Dellet</a></li>
+
+            <li><a href="http://127.0.0.1:8000/admin/apP/wirehouse/"  target="_blank">ADD_NEW_WIREHOUSE also Edit  Dellet</a></li>
       <!-- <li><a href="http://127.0.0.1:8000/admin/apP/product/" target="_blank">Add New Product</a></li> -->
 
 

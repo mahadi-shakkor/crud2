@@ -526,7 +526,7 @@ class SeedStock20(models.Model):
 class Sensor(models.Model):
     sensorid = models.AutoField(db_column='SensorID', primary_key=True)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=255)  # Field name made lowercase.
-    nextservingdate = models.DateField(db_column='NextServingDate', blank=True, null=True)  # Field name made lowercase.
+    nextservingdate = models.DateField(db_column='NextServingDate', blank=True,null=True)  # Field name made lowercase.
     lastphysicalcheckeddate = models.DateField(db_column='LastPhysicalCheckedDate', blank=True, null=True)  # Field name made lowercase.
     b_number = models.ForeignKey(Batch, models.DO_NOTHING, db_column='B_NUMBER', blank=True, null=True)  # Field name made lowercase.
     wirehouse = models.ForeignKey('Wirehouse', models.DO_NOTHING, db_column='WIREHOUSE_ID', blank=True, null=True)  # Field name made lowercase.
