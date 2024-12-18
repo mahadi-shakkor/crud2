@@ -148,8 +148,10 @@ def add_harvest_info(request):
         if form.is_valid():
             selected_soil_types = form.cleaned_data['soil_types']
             # Convert list to a string for display purposes
-            soil_types_display = ', '.join(selected_soil_types)
-            print("soil_types_display",soil_types_display)
+            # soil_types_display = ', '.join(selected_soil_types)
+            # for i in selected_soil_types:
+
+            #     print("soil_types_display",i)
         else:
             form = SoilForm()        
 
@@ -176,7 +178,7 @@ def add_harvest_info(request):
         # print(f"Fruit: {fruit}")
         # print(f"Spice: {spice}")
 
-        print(f"soilType---------------------------: {soilType}")
+        print(f"soilType---------------------------:",soilType)
 
 
         
@@ -187,7 +189,7 @@ def add_harvest_info(request):
         
         try:
             userH = User.objects.get(userid=int(OWNERIDharbest))
-            print(userH.userid,'------------------------------------------------------------')
+            # print(userH.userid,'------------------------------------------------------------')
             
         except User.DoesNotExist:
         # Handle the case where the user doesn't exist (optional)
@@ -206,9 +208,9 @@ def add_harvest_info(request):
         vegetable = request.POST.get('vegetable')
         fruit = request.POST.get('fruit')
         spice = request.POST.get('spice')
-        print(cereal,'================================================================')
+        # print(cereal,'================================================================')
         harvest = Harvest.objects.create(notes=notes,qualitygrade=qualitygrade,product=product,userid=userH,season=season)
-        print(userHF.userid,"[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]")
+        # print(userHF.userid,"[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]")
 
         harvestfild=HarvestFields.objects.create(userid=userHF)
 
@@ -219,7 +221,8 @@ def add_harvest_info(request):
         HarvestFieldsCropsType.objects.create(fields=harvestfild,crop_type=vegetable)
         HarvestFieldsCropsType.objects.create(fields=harvestfild,crop_type=fruit)
         HarvestFieldsCropsType.objects.create(fields=harvestfild,crop_type=spice)
-        # HarvestFieldsSoilType
+        for i in selected_soil_types:
+            HarvestFieldsSoilType.objects.create(fields=harvestfild,soil_type=i)
 
 
 
