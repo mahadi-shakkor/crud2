@@ -46,8 +46,70 @@ def index(request):
         return Response(cources)
 
 
-     
-    
+from django.http import Http404
+# Create a new Harvest Field
+def wirehouse_manager_connect_Batch_and_sensor(request):
+    if request.method == 'POST':
+        m=""
+        BATCH_ID = request.POST.get('BATCH_ID')
+        SENSOR_ID = request.POST.get('SENSOR_ID')
+        print(BATCH_ID,SENSOR_ID,"====================================================================================")
+        
+
+        # searched_sensor = get_object_or_404(Sensor, sensorid=SENSOR_ID)
+
+        try:
+            searched_sensor = Sensor.objects.get(sensorid=SENSOR_ID)
+                # return JsonResponse({'status': 'success', 'sensor': searched_sensor.name})
+        except ObjectDoesNotExist:
+            m+="sensor id not found"
+            return render(request, 'wirehouse_manager_connect_Batch_and_sensor.html', {"m":m})
+        
+
+        try:
+            searched_batch = Batch.objects.get(b_number=BATCH_ID)
+                # return JsonResponse({'status': 'success', 'sensor': searched_sensor.name})
+        except ObjectDoesNotExist:
+            m+="batch id not found"
+            return render(request, 'wirehouse_manager_connect_Batch_and_sensor.html', {"m":m})
+        
+        searched_sensor.b_number=searched_batch
+        searched_sensor.save()
+
+        # try:
+        #     searched_sensor = get_object_or_404(Sensor, sensorid=SENSOR_ID)
+        # # Continue processing with searched_sensor
+        #     # return render(request, 'wirehouse_manager_connect_Batch_and_sensor.html', {})
+        # except Http404:
+        #     m+="sensor id not found"
+        # # Handle the case where no sensor is found
+        #     return render(request, 'wirehouse_manager_connect_Batch_and_sensor.html', {"m":m})
+        # # print(searched_sensor)
+
+        # try:
+        #     searched_batch = get_object_or_404(Sensor, b_number=BATCH_ID)
+        # # Continue processing with searched_batch
+        #     # return render(request, 'wirehouse_manager_connect_Batch_and_sensor.html', {})
+        # except Http404:
+        #     m+="batch id not found"
+        # # Handle the case where no sensor is found
+        #     return render(request, 'wirehouse_manager_connect_Batch_and_sensor.html', {"m":m})
+        # # print(searched_batch)
+
+
+
+
+
+
+
+    #     form = HarvestFieldsForm(request.POST)
+    #     if form.is_valid():
+    #         form.save()  # Save the new harvest field
+    #         return redirect('harvest_fields_list')  # Redirect to the list of harvest fields
+    # else:
+    #     form = HarvestFieldsForm()
+
+    return render(request, 'wirehouse_manager_connect_Batch_and_sensor.html', {})
 
 
 

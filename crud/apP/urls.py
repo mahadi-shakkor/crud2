@@ -9,6 +9,7 @@ router.register(r'api/harvestfields', HarvestFieldsViewSet, basename='harvestfie
 
 urlpatterns = [
     # Your existing URL patterns
+    path('wirehouse_manager_connect_Batch_and_sensor/', views.wirehouse_manager_connect_Batch_and_sensor, name='wirehouse_manager_connect_Batch_and_sensor'),
     path('monitir_realtime_tem_humidity/', views.monitir_realtime_tem_humidity, name='monitir_realtime_tem_humidity'),
     path('add_harvest_info/', views.add_harvest_info, name='add_harvest_info'),
     path('add_batch_to_invantory/', views.add_batch_to_invantory, name='add_batch_to_invantory'),
