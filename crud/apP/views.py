@@ -199,14 +199,6 @@ def add_harvest_info(request):
             user = None  
 
         # fields=HarvestFields.objects.create(userid=userHF)
-
-
-        harvest = Harvest.objects.create(notes=notes,qualitygrade=qualitygrade,product=product,userid=userH,season=season)
-        print(userHF.userid,"[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]")
-
-        harvestfild=HarvestFields.objects.create(userid=userHF)
-
-
         cereal = request.POST.get('cereal')
         legume = request.POST.get('legume')
         root = request.POST.get('root')
@@ -215,6 +207,23 @@ def add_harvest_info(request):
         fruit = request.POST.get('fruit')
         spice = request.POST.get('spice')
         print(cereal,'================================================================')
+        harvest = Harvest.objects.create(notes=notes,qualitygrade=qualitygrade,product=product,userid=userH,season=season)
+        print(userHF.userid,"[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]")
+
+        harvestfild=HarvestFields.objects.create(userid=userHF)
+
+        HarvestFieldsCropsType.objects.create(fields=harvestfild,crop_type=cereal)
+        HarvestFieldsCropsType.objects.create(fields=harvestfild,crop_type=legume)
+        HarvestFieldsCropsType.objects.create(fields=harvestfild,crop_type=root)
+        HarvestFieldsCropsType.objects.create(fields=harvestfild,crop_type=oilseed)
+        HarvestFieldsCropsType.objects.create(fields=harvestfild,crop_type=vegetable)
+        HarvestFieldsCropsType.objects.create(fields=harvestfild,crop_type=fruit)
+        HarvestFieldsCropsType.objects.create(fields=harvestfild,crop_type=spice)
+        # HarvestFieldsSoilType
+
+
+
+
         # if(cereal):
             # HarvestFieldsCropsType.objects.create(fields=fields,crop_type=cereal)
 
