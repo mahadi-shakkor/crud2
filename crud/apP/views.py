@@ -160,7 +160,7 @@ def add_harvest_info(request):
         OWNERIDharbest = request.POST.get('OWNERIDharbest')
         OWNERIDharbestFilds = request.POST.get('OWNERIDharbestFilds')
 
-        print(OWNERIDharbest,OWNERIDharbestFilds,"===============")
+        # print(OWNERIDharbest,OWNERIDharbestFilds,"===============")
         season = request.POST.get('season')
         notes = request.POST.get('notes')
         product = get_object_or_404(Product, product_id=product_id)
@@ -178,7 +178,7 @@ def add_harvest_info(request):
         # print(f"Fruit: {fruit}")
         # print(f"Spice: {spice}")
 
-        print(f"soilType---------------------------:",soilType)
+        # print(f"soilType---------------------------:",soilType)
 
 
         
@@ -221,8 +221,20 @@ def add_harvest_info(request):
         HarvestFieldsCropsType.objects.create(fields=harvestfild,crop_type=vegetable)
         HarvestFieldsCropsType.objects.create(fields=harvestfild,crop_type=fruit)
         HarvestFieldsCropsType.objects.create(fields=harvestfild,crop_type=spice)
+ 
+
         for i in selected_soil_types:
             HarvestFieldsSoilType.objects.create(fields=harvestfild,soil_type=i)
+            
+        time_date_of_harvest_from_fields = request.POST.get('datetime')
+        quantity = request.POST.get('quantity')
+        unit = request.POST.get('u')
+
+        # print(time_date_of_harvest_from_fields,"==========================================================")
+        # print(quantity,unit)
+
+        
+        HarvestHarvestFields.objects.create(unitofmeasure=unit,hid=harvest,fields=harvestfild,time_date_of_harvest_from_fields=time_date_of_harvest_from_fields,quantity=quantity)
 
 
 

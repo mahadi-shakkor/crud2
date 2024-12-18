@@ -25,6 +25,8 @@ class HarvestFieldsForm(forms.ModelForm):
 
 
 
+from django import forms
+
 class SoilForm(forms.Form):
     SOIL_TYPES = [
         ('loam', 'Loam'),
@@ -42,10 +44,11 @@ class SoilForm(forms.Form):
         ('forest-soil', 'Forest Soil'),
         ('terra-rossa', 'Terra Rossa'),
     ]
-    
+
     soil_types = forms.MultipleChoiceField(
         choices=SOIL_TYPES,
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.CheckboxSelectMultiple,
+        initial=['loam']  # Default selection
     )
 
 
