@@ -166,7 +166,7 @@ def add_harvest_info(request):
 
 
 
-        # soilType = request.POST.get('soil-types')
+        soilType = request.POST.get('soil-types')
         #     # Printing the values to the console
         # print(f"Cereal---------------------------: {cereal}")
         # print(f"Legume: {legume}")
@@ -176,7 +176,7 @@ def add_harvest_info(request):
         # print(f"Fruit: {fruit}")
         # print(f"Spice: {spice}")
 
-        # print(f"soilType---------------------------: {soilType}")
+        print(f"soilType---------------------------: {soilType}")
 
 
         
@@ -184,8 +184,11 @@ def add_harvest_info(request):
         # print(season)
         # print(qualitygrade)
         # print(notes)
+        
         try:
             userH = User.objects.get(userid=int(OWNERIDharbest))
+            print(userH.userid,'------------------------------------------------------------')
+            
         except User.DoesNotExist:
         # Handle the case where the user doesn't exist (optional)
             user = None
@@ -193,9 +196,16 @@ def add_harvest_info(request):
             userHF = User.objects.get(userid=int(OWNERIDharbest))
         except User.DoesNotExist:
         # Handle the case where the user doesn't exist (optional)
-            user = None    
-        fields=HarvestFields.objects.create(userid=userHF)
+            user = None  
+
+        # fields=HarvestFields.objects.create(userid=userHF)
+
+
         harvest = Harvest.objects.create(notes=notes,qualitygrade=qualitygrade,product=product,userid=userH,season=season)
+        print(userHF.userid,"[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]")
+
+        harvestfild=HarvestFields.objects.create(userid=userHF)
+
 
         cereal = request.POST.get('cereal')
         legume = request.POST.get('legume')
@@ -204,8 +214,9 @@ def add_harvest_info(request):
         vegetable = request.POST.get('vegetable')
         fruit = request.POST.get('fruit')
         spice = request.POST.get('spice')
-        if(cereal):
-            HarvestFieldsCropsType.objects.create(fields=fields)
+        print(cereal,'================================================================')
+        # if(cereal):
+            # HarvestFieldsCropsType.objects.create(fields=fields,crop_type=cereal)
 
 
 
@@ -234,7 +245,7 @@ def add_harvest_info(request):
 #         db_table = 'harvest_fields_soil_type'
 #         unique_together = (('fields', 'soil_type'),)
 
-    
+    print(request.POST)
     return render(request, 'add_harvest_info.html',{"soilform":form,"user":user,"product":products,"users":users})
 
 

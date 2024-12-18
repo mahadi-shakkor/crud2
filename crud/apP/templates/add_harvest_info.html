@@ -180,8 +180,17 @@
 
 
 </form>
+{% comment %} http://127.0.0.1:8000/user_search/
+<a href="{% url 'user_search' %}"><button>SEARCH ALL OWNERS HERE </button></a> {% endcomment %}
 
-<a href="{% url 'user_search' %}"><button>SEARCH ALL OWNERS HERE </button></a>
+ <button>
+ <a href="http://127.0.0.1:8000/user_search/"  target="_blank">SEARCH ALL OWNERS HERE</a>
+ </button>
+
+{% comment %} <a href="{% url 'http://127.0.0.1:8000/' %}"><button>CReate New user </button></a> {% endcomment %}
+ <button>
+ <a href="http://127.0.0.1:8000/"  target="_blank">CReate New user</a>
+ </button>
 
     <!-- <br><br>
 
