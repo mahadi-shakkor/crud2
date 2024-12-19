@@ -87,7 +87,7 @@ def buy_batch(request, b_number):
 
 
         batch.status="sold"
-        # batch.sell=False
+        batch.sell=False
         batch.save()
 
 
