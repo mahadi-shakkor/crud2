@@ -79,28 +79,64 @@ def buy_batch(request, b_number):
 
 
     batch = get_object_or_404(Batch, b_number=b_number)
-    batch.status="sold"
-    # batch.sell=False
-    batch.save()
 
-    if user.usertype=="customer":
-        customer = Customer.objects.get(cid=userid)
-        PurchaseRequest.objects.create(quantity=batch.product_amount,unitprice=batch.product_unit_price,
-                                   p_date=datetime.now(),payment_status="Paid",cid=customer)
+    if request.method == 'POST':
+        dalivary_mathod=BATCH_ID = request.POST.get('dalivary_mathod')
+        Dalovary_Location=BATCH_ID = request.POST.get('Dalovary_Location')
 
-        # user = Customer.objects.get(cid=user)
 
-    elif user.usertype=="distributor":
-        distributor_company = DistributorCompany.objects.get(did=userid)
-        PurchaseRequest.objects.create(quantity=batch.product_amount,unitprice=batch.product_unit_price,
-                                   p_date=datetime.now(),payment_status="Paid",did=distributor_company)
-        
-    elif user.usertype=="retailer":
-        retailer = Retailer.objects.get(rid=userid)
-        PurchaseRequest.objects.create(quantity=batch.product_amount,unitprice=batch.product_unit_price,
-                                p_date=datetime.now(),payment_status="Paid",rid=retailer)    
+
+        batch.status="sold"
+        # batch.sell=False
+        batch.save()
+
+
+
+        if user.usertype=="customer":
+            customer = Customer.objects.get(cid=userid)
+            p=PurchaseRequest.objects.create(quantity=batch.product_amount,unitprice=batch.product_unit_price,
+                                    p_date=datetime.now(),payment_status="Paid",cid=customer)
+            Delivery.objects.create(fromwherepickup_loc=Dalovary_Location,pid=p,delivery_status="pending",is_pickedup=False,d_time_date=datetime.now(),delivery_method=dalivary_mathod)
+
+            # user = Customer.objects.get(cid=user)
+
+        elif user.usertype=="distributor":
+            distributor_company = DistributorCompany.objects.get(did=userid)
+            p=PurchaseRequest.objects.create(quantity=batch.product_amount,unitprice=batch.product_unit_price,
+                                    p_date=datetime.now(),payment_status="Paid",did=distributor_company)
+            Delivery.objects.create(fromwherepickup_loc=Dalovary_Location,pid=p,delivery_status="pending",is_pickedup=False,d_time_date=datetime.now(),delivery_method=dalivary_mathod)
+
+            
+        elif user.usertype=="retailer":
+            retailer = Retailer.objects.get(rid=userid)
+            p=PurchaseRequest.objects.create(quantity=batch.product_amount,unitprice=batch.product_unit_price,
+                                    p_date=datetime.now(),payment_status="Paid",rid=retailer) 
+            Delivery.objects.create(fromwherepickup_loc=Dalovary_Location,pid=p,delivery_status="pending",is_pickedup=False,d_time_date=datetime.now(),delivery_method=dalivary_mathod)
+ 
+
+
+
     
          
+
+
+
+# class Delivery(models.Model):
+#     pid = models.OneToOneField('PurchaseRequest', models.DO_NOTHING, db_column='PID', primary_key=True)  # Field name made lowercase. The composite primary key (PID, D_Time_DATE) found, that is not supported. The first column is selected.
+#     d_time_date = models.DateTimeField(db_column='D_Time_DATE')  # Field name made lowercase.
+#     delivery_status = models.CharField(db_column='Delivery_Status', max_length=50)  # Field name made lowercase.
+#     delivered_by = models.CharField(db_column='Delivered_By', max_length=255, blank=True, null=True)  # Field name made lowercase.
+#     is_pickedup = models.IntegerField(db_column='IS_PickedUp', blank=True, null=True)  # Field name made lowercase.
+#     is_on_the_way = models.IntegerField(db_column='IS_on_the_Way', blank=True, null=True)  # Field name made lowercase.
+#     fromwherepickup_loc = models.CharField(db_column='FromWherePickup_Loc', max_length=255, blank=True, null=True)  # Field name made lowercase.
+#     delivery_address = models.CharField(db_column='Delivery_Address', max_length=255, blank=True, null=True)  # Field name made lowercase.
+#     is_satisfy_customer = models.IntegerField(db_column='IS_satisfy_Customer', blank=True, null=True)  # Field name made lowercase.
+#     delivery_method = models.CharField(db_column='Delivery_Method', max_length=50, blank=True, null=True)  # Field name made lowercase.
+
+#     class Meta:
+#         managed = False
+#         db_table = 'delivery'
+#         unique_together = (('pid', 'd_time_date'),)
 
     # elif user.usertype=="retailer":
     #     PurchaseRequest.objects.create(quantity=batch.product_amount,unitprice=batch.product_unit_price,
