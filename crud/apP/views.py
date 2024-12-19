@@ -67,21 +67,77 @@ def product_batch_buy(request):
 
 
 def buy_batch(request, b_number):
-
-
+    userid = request.GET.get('userid')
+    # products = Product.objects.all()
+    # users = User.objects.all()  
+    
+    try:
+        user = User.objects.get(userid=userid)
+    except User.DoesNotExist:
+        # Handle the case where the user doesn't exist (optional)
+        user = None
 
 
     batch = get_object_or_404(Batch, b_number=b_number)
     batch.status="sold"
-    batch.sell=False
+    # batch.sell=False
     batch.save()
-    # PurchaseRequest.objects.create()
+
+    if user.usertype=="customer":
+        customer = Customer.objects.get(cid=userid)
+        PurchaseRequest.objects.create(quantity=batch.product_amount,unitprice=batch.product_unit_price,
+                                   p_date=datetime.now(),payment_status="Paid",cid=customer)
+
+        # user = Customer.objects.get(cid=user)
+
+    elif user.usertype=="distributor":
+        distributor_company = DistributorCompany.objects.get(did=userid)
+        PurchaseRequest.objects.create(quantity=batch.product_amount,unitprice=batch.product_unit_price,
+                                   p_date=datetime.now(),payment_status="Paid",did=distributor_company)
+        
+    elif user.usertype=="retailer":
+        retailer = Retailer.objects.get(rid=userid)
+        PurchaseRequest.objects.create(quantity=batch.product_amount,unitprice=batch.product_unit_price,
+                                p_date=datetime.now(),payment_status="Paid",rid=retailer)    
+    
+         
+
+    # elif user.usertype=="retailer":
+    #     PurchaseRequest.objects.create(quantity=batch.product_amount,unitprice=batch.product_unit_price,
+    #                                p_date=datetime.now,payment_status="Paid",rid=user)
+    
+    #     user = Customer.objects.get(rid=user)   
+
+    
+    # try:
+    #     user = User.objects.get(userid=userid)
+    # except User.DoesNotExist:
+    #     # Handle the case where the user doesn't exist (optional)
+    #     user = None    
 
 
+
+
+
+
+
+# class PurchaseRequest(models.Model):
+#     pid = models.AutoField(db_column='PID', primary_key=True)  # Field name made lowercase.
+#     quantity = models.IntegerField(db_column='Quantity')  # Field name made lowercase.
+#     unitprice = models.DecimalField(db_column='UnitPrice', max_digits=10, decimal_places=2)  # Field name made lowercase.
+#     p_date = models.DateField(db_column='P_Date')  # Field name made lowercase.
+#     payment_status = models.CharField(db_column='Payment_Status', max_length=50)  # Field name made lowercase.
+#     rid = models.ForeignKey('Retailer', models.DO_NOTHING, db_column='RID', blank=True, null=True)  # Field name made lowercase.
+#     did = models.ForeignKey(DistributorCompany, models.DO_NOTHING, db_column='DID', blank=True, null=True)  # Field name made lowercase.
+#     cid = models.ForeignKey(Customer, models.DO_NOTHING, db_column='CID', blank=True, null=True)  # Field name made lowercase.
+
+#     class Meta:
+#         managed = False
+#         db_table = 'purchase_request'
 
     
 
-    return render(request, 'buy_batch.html',{'batch':batch})
+    return render(request, 'buy_batch.html',{'batch':batch,'user':user})
 
 
 from django.http import Http404

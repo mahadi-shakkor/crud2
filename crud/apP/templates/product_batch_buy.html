@@ -48,7 +48,8 @@
                     <td>{{ b.ton }}</td>
                     <td>{{ b.mon }}</td>
                     <td>
-                    <a href="{% url 'buy_batch' b.b_number %}">BUY</a> 
+                    {% comment %} <a href="{% url 'buy_batch' b.b_number %}">BUY</a>  {% endcomment %}
+                    <li><a href="{% url 'buy_batch' b.b_number %}?userid={{user.userid}}">BUY</a></li>
                     </td>
            
                 </tr>
