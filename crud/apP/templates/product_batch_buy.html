@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Monitoring</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Realtime Temperature and Humidity Monitoring</h1>
+    
+    <h2>User: {{ user.username }}</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>batch number</th>
+                <th>priduct name</th>
+                <th>kg</th>
+                <th>ton </th>
+                <th>mon </th>
+
+                <th> BUY</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in batch %}
+                <tr>
+                    <td>{{ b.b_number }}</td>
+                    <td>{{ b.product.product_name }}</td>
+                    <td>{{ b.kg }}</td>
+                    <td>{{ b.ton }}</td>
+                    <td>{{ b.mon }}</td>
+                    <td>
+                    <a href="{% url 'buy_batch' b.b_number %}">BUY</a> 
+                    </td>
+           
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

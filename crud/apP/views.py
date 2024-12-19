@@ -46,6 +46,24 @@ def index(request):
         return Response(cources)
 
 
+def product_batch_buy(request):
+    batch =  Batch.objects.filter(sell=True)
+
+
+ 
+    
+    return render(request, 'product_batch_buy.html',{'batch':batch})
+
+
+def buy_batch(request, b_number):
+    batch = get_object_or_404(Batch, b_number=b_number)
+
+
+    
+
+    return render(request, 'buy_batch.html',{'batch':batch})
+
+
 from django.http import Http404
 # Create a new Harvest Field
 def wirehouse_manager_connect_Batch_and_sensor(request):
@@ -111,6 +129,7 @@ def wirehouse_manager_connect_Batch_and_sensor(request):
 
     return render(request, 'wirehouse_manager_connect_Batch_and_sensor.html', {})
 
+# Update a Harvest Field
 
 
 
