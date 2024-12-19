@@ -9,6 +9,7 @@ router.register(r'api/harvestfields', HarvestFieldsViewSet, basename='harvestfie
 
 urlpatterns = [
     # Your existing URL patterns
+    path('farmer_req_visit_cutomer/', views.farmer_req_visit_cutomer, name='farmer_req_visit_cutomer'),
     path('product_batch_buy/', views.product_batch_buy, name='product_batch_buy'),
     path('wirehouse_manager_connect_Batch_and_sensor/', views.wirehouse_manager_connect_Batch_and_sensor, name='wirehouse_manager_connect_Batch_and_sensor'),
     path('monitir_realtime_tem_humidity/', views.monitir_realtime_tem_humidity, name='monitir_realtime_tem_humidity'),
@@ -24,6 +25,7 @@ urlpatterns = [
     path('harvest_fields/update/<int:fields_id>/', views.update_harvest_field, name='update_harvest_field'),
     path('harvest_fields/delete/<int:fields_id>/', views.delete_harvest_field, name='delete_harvest_field'),
     path('buy_batch/<int:b_number>/', views.buy_batch, name='buy_batch'),
+    path('visit_Fild/<int:hid>/', views.visit_Fild, name='visit_Fild'),
 
 
     # DRF API URL for HarvestFields

@@ -46,6 +46,94 @@ def index(request):
         return Response(cources)
 
 
+def visit_Fild(request,hid):
+    userid = request.GET.get('userid')
+    # products = Product.objects.all()
+    # users = User.objects.all()  
+    
+    try:
+        user = User.objects.get(userid=userid)
+    except User.DoesNotExist:
+        # Handle the case where the user doesn't exist (optional)
+        user = None
+
+    # batch =  Batch.objects.filter(sell=True)
+
+    print(hid)
+
+
+
+ 
+    
+    return render(request, 'visit_Fild.html',{'user':user})
+
+
+
+from datetime import timedelta
+from django.utils.timezone import now  # Importing timezone-aware now
+
+def farmer_req_visit_cutomer(request):
+    userid = request.GET.get('userid')
+    
+    try:
+        user = User.objects.get(userid=userid)
+    except User.DoesNotExist:
+        user = None
+
+    hhf = HarvestHarvestFields.objects.all()  
+    li = [] 
+    
+    for i in hhf:
+        time_difference = now() - i.time_date_of_harvest_from_fields
+        
+        # Convert the time difference to minutes
+        difference_in_minutes = time_difference.total_seconds() / 60
+        
+        # Skip if the difference is less than 2 days (2*24*60 minutes)
+        if not (difference_in_minutes < (2 * 24 * 60)):
+            continue
+        
+        # Check if usertype is 'farmer' and add to the list
+        if hasattr(i.hid, 'userid') and i.hid.userid.usertype == 'farmer':
+            li.append(i)
+        
+        print("User Type:", i.hid.userid.usertype)
+        print("Difference in Minutes:", difference_in_minutes)
+
+    # Printing the final list of selected harvest fields
+    # for item in li:
+    #     print(item)
+
+
+        
+
+
+
+
+    # class CustomerReqVisitToFarmer(models.Model):
+    # fid = models.OneToOneField('Farmer', models.DO_NOTHING, db_column='FID', primary_key=True)  # Field name made lowercase. The composite primary key (FID, CID, Visit_Date, Time_Slot) found, that is not supported. The first column is selected.
+    # cid = models.ForeignKey(Customer, models.DO_NOTHING, db_column='CID')  # Field name made lowercase.
+    # visit_date = models.DateField(db_column='Visit_Date')  # Field name made lowercase.
+    # time_slot = models.CharField(db_column='Time_Slot', max_length=100)  # Field name made lowercase.
+    # person_in_visit = models.CharField(db_column='Person_In_Visit', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    # visit_charge_set_by_farmer = models.DecimalField(db_column='Visit_Charge_Set_By_Farmer', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+
+    # class Meta:
+    #     managed = False
+    #     db_table = 'customer_req_visit_to_farmer'
+    #     unique_together = (('fid', 'cid', 'visit_date', 'time_slot'),)    
+
+ 
+
+
+
+ 
+    
+    return render(request, 'farmer_req_visit_cutomer.html',{'li':li,'user':user})
+
+
+
+
 def product_batch_buy(request):
     userid = request.GET.get('userid')
     # products = Product.objects.all()

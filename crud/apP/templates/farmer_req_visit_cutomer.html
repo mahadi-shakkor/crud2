@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Monitoring</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRkZmeL6bSA5lm1mYlFE4nyCq7N1RIYbiFHZ+iN7M" crossorigin="anonymous">
+
+    <h1>   hello farmer_req_visit_cutomer </h1>
+
+
+
+
+ <div class="container my-5">
+        <h1 class="text-center mb-4">farmer req visit</h1>
+        <p>User Type: {{ user.usertype }}</p>
+        {% if li %}
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>product</th>
+                    <th>Visit</th>
+                    {% comment %} <th>Batch Humidity</th>
+                    <th>Live Time</th>
+                    <th> product</th> {% endcomment %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for l in li %}
+                <tr>
+                    <td>{{ l.hid.product.product_name }}</td>
+                    <td>
+                    {% comment %} <a href="{% url 'buy_batch' b.b_number %}">BUY</a>  {% endcomment %}
+                    <li><a href="{% url 'visit_Fild' l.hid.hid %}?userid={{user.userid}}">visit_Fild</a></li>
+                    </td>
+
+
+                    
+                    {% comment %} <td>{{ l }}</td>
+                    <td>{{ l }}</td>
+                    <td>{{ l }}</td>
+
+                    <td>{{ l }}</td> {% endcomment %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-warning text-center" role="alert">
+            No sensor records available.
+        </div>
+        {% endif %}
+    </div>
+
+
+
+
+
+
+
+
+    {% comment %} {{batch.b_number}}
+    <h2>User: {{ user.userid }}</h2>
+
+    <form method="post">
+  {% csrf_token %}
+
+      <label for="dalivary_mathod">Select a season:</label>
+    <select id="dalivary_mathod" name="dalivary_mathod" required>
+    <option value="buy van">buy van</option>
+    <option value="buy air">buy air</option>
+    <option value="truck">truc</option>
+    <option value="mini van">mini van</option>
+    <option value="pickup">pickup</option>
+    <option value="in_person">in_person</option>
+    </select>
+
+
+
+
+    <br>
+
+    <div class="mb-3">
+                <label for="Dalovary_Location" class="form-label">Delevary_Location</label>
+                <input type="text" class="form-control" id="Dalovary_Location" name="Dalovary_Location" placeholder="Enter Dalovary_Location " required>
+            </div>
+
+
+``
+
+     <button type="submit">conferm to buy</button>
+
+
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-vwbPwn8rF9FrUkcNUvG99UNeg2P1SMxQmgtN1VfNxl83iSDHRynj8g6HGYkOG5l5" crossorigin="anonymous"></script>
+ {% endcomment %}
+
+</body>
+</html>
