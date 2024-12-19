@@ -427,9 +427,9 @@ def PDemandf(request):
     return render(request, 'PDemand.html', {"products":products,"user": user, 'location': location})
 
 
-
-
-
+from datetime import datetime
+from django.utils.timezone import now  # For timezone-aware datetime
+import random
 
 def monitir_realtime_tem_humidity(request):
     userid = request.GET.get('userid')
@@ -437,14 +437,218 @@ def monitir_realtime_tem_humidity(request):
     try:
         user = User.objects.get(userid=userid)
     except User.DoesNotExist:
-        # Handle the case where the user doesn't exist (optional)
         user = None
+
+    try:
+        wirehousemanager = WirehouseManager.objects.get(wid=user)
+    except WirehouseManager.DoesNotExist:
+        wirehousemanager = None 
+
+    try:
+        wirehousee = Wirehouse.objects.get(wid=wirehousemanager)
+    except Wirehouse.DoesNotExist:
+        wirehousee = None     
+
+    # Fetch sensors
+    sensors = Sensor.objects.filter(wirehouse=wirehousee)
+    sensors_lastersrecord=[]
+    for sensor in sensors:
+
+        latest_record = LiveTemperatureHumidityMonitoringOfProductBatches.objects.filter(sid=sensor).last()
+        if latest_record:
+            # print(latest_record.humidity)
+            # print(latest_record.temperature)
+            # print(latest_record.recorded_time)
+
+            # Calculate the time difference
+            difference = now() - latest_record.recorded_time
+            difference_in_minutes = abs(difference.total_seconds() / 60)
+
+            if (difference_in_minutes>30):
+                    print("if")
+                    latest_record=LiveTemperatureHumidityMonitoringOfProductBatches.objects.create(
+            sid=sensor,
+            humidity=random.randint(20, 30),
+
+            temperature=random.randint(20, 30),
+            recorded_time=now()  # Use timezone-aware datetime
+                                                                                        )
+                    sensors_lastersrecord.append((sensor,latest_record))
+            else:
+                print("else")
+                print(latest_record,"show last available value")
+                print(latest_record.humidity)
+                print(latest_record.temperature)
+                print(latest_record.recorded_time)
+                sensors_lastersrecord.append((sensor,latest_record))
+
+
+            print(f"Time difference in minutes: {difference_in_minutes}")
+        else:
+            latest_record=LiveTemperatureHumidityMonitoringOfProductBatches.objects.create(
+            sid=sensor,
+            humidity=random.randint(20, 30),
+
+            temperature=random.randint(20, 30),
+            recorded_time=now()  # Use timezone-aware datetime
+                                                                                        )
+            
+            sensors_lastersrecord.append((sensor,latest_record))
+            
+
+
+    print(sensors_lastersrecord)
+    for i in sensors_lastersrecord:
+        print(i[0].name)
+        print(i[1].temperature)
+
+
+
+    # sensor = sensors.first()  # Assuming you want the first sensor
+
+    # if not sensor:
+    #     return render(request, 'monitir_realtime_tem_humidity.html', {'user': user, 'error': 'No sensors found'})
+
+    # # # Log a new record in LiveTemperatureHumidityMonitoringOfProductBatches
+    # # LiveTemperatureHumidityMonitoringOfProductBatches.objects.create(
+    # #     sid=sensor,
+    # #     humidity=20.0,
+    # #     temperature=19,
+    # #     recorded_time=now()  # Use timezone-aware datetime
+    # # )
+
+    # # Fetch the latest record
+
+    # latest_record = LiveTemperatureHumidityMonitoringOfProductBatches.objects.filter(sid=sensor).last()
+    # if latest_record:
+    #     # print(latest_record.humidity)
+    #     # print(latest_record.temperature)
+    #     # print(latest_record.recorded_time)
+
+    #     # Calculate the time difference
+    #     difference = now() - latest_record.recorded_time
+    #     difference_in_minutes = abs(difference.total_seconds() / 60)
+
+    #     if (difference_in_minutes>30):
+    #             print("if")
+    #             latest_record=LiveTemperatureHumidityMonitoringOfProductBatches.objects.create(
+    #     sid=sensor,
+    #     humidity=random.randint(20, 30),
+
+    #     temperature=random.randint(20, 30),
+    #     recorded_time=now()  # Use timezone-aware datetime
+    #                                                                                 )
+    #     else:
+    #         print("else")
+    #         print(latest_record,"show last available value")
+    #         print(latest_record.humidity)
+    #         print(latest_record.temperature)
+    #         print(latest_record.recorded_time)
+
+            
+
+    #     print(f"Time difference in minutes: {difference_in_minutes}")
+    # else:
+    #     print("No records found for the sensor.")
+
+
+
+    return render(request, 'monitir_realtime_tem_humidity.html', {'user': user,'sensors_lastersrecord':sensors_lastersrecord})
+# from datetime import datetime
+# from django.utils.timezone import now
+
+# def monitir_realtime_tem_humidity(request):
+#     userid = request.GET.get('userid')
     
-    # Get all batches where the user matches
-    batch = Batch.objects.filter(user=user).order_by('-date_time_batch_created')
-    # batch=Batch.objects.all()
+#     try:
+#         user = User.objects.get(userid=userid)
+#     except User.DoesNotExist:
+#         user = None
+
+#     try:
+#         wirehousemanager = WirehouseManager.objects.get(wid=user)
+#     except WirehouseManager.DoesNotExist:
+#         wirehousemanager = None 
+
+#     try:
+#         wirehousee = Wirehouse.objects.get(wid=wirehousemanager)
+#     except Wirehouse.DoesNotExist:
+#         wirehousee = None     
+
+#     # Use .filter() to handle multiple sensors
+#     sensors = Sensor.objects.filter(wirehouse=wirehousee)
+#     # for i in sensors:
+#     #     print(i)
+#     # if sensors.count() > 1:
+#     #     print("Multiple sensors found for the wirehouse!")
+#     # elif not sensors.exists():
+#     #     print("No sensors found!")
+
+#     print(sensors.first())  
+
+#     LiveTemperatureHumidityMonitoringOfProductBatches.objects.create(sid=sensors.first(),humidity=20.0,temperature=19,recorded_time=datetime.now())
+
+
+#     realtime_t_hs = LiveTemperatureHumidityMonitoringOfProductBatches.objects.filter(sid=sensors.first())  
+#     # print(realtime_t_hs.first.temperature)
+#     print(realtime_t_hs.last().humidity)
+#     print(realtime_t_hs.last().temperature)
+#     print(realtime_t_hs.last().recorded_time)
+#     print(datetime.now())
+
+
+
+#     # difference =datetime.now()-realtime_t_hs.last().recorded_time
+#     # difference_in_minutes = abs(difference.total_seconds() / 60)
+#     # print(difference)
+
+
+
+
+#     # sensors = Sensor.objects.filter(wirehouse=wirehousee)
+
+
+
+#     return render(request, 'monitir_realtime_tem_humidity.html', {'user': user,'sensors':sensors})
+# def monitir_realtime_tem_humidity(request):
+#     userid = request.GET.get('userid')
     
-    return render(request, 'monitir_realtime_tem_humidity.html', {'batch': batch})
+#     try:
+#         user = User.objects.get(userid=userid)
+#     except User.DoesNotExist:
+#         # Handle the case where the user doesn't exist (optional)
+#         user = None
+
+#     try:
+#         wirehousemanager = WirehouseManager.objects.get(wid=user)
+#     except User.DoesNotExist:
+#         # Handle the case where the user doesn't exist (optional)
+#         wirehousemanager = None 
+
+#     try:
+#         wirehousee = Wirehouse.objects.get(wid=wirehousemanager)
+#     except User.DoesNotExist:
+#         # Handle the case where the user doesn't exist (optional)
+#         wirehousee = None     
+
+
+#     try:
+#         sensors = Sensor.objects.get(wirehouse=wirehousee)
+#     except User.DoesNotExist:
+#         # Handle the case where the user doesn't exist (optional)
+#         sensors = None      
+    
+#     # Get all batches where the user matches
+#     # wirehousemanager = WirehouseManager.objects.filter(wid=user)
+#     # wirehouse = Wirehouse.objects.filter(wid=wirehousemanager)
+#     # sensors = Sensor.objects.filter(wirehouse=wirehouse)
+#     print(sensors.objects.all())
+
+#     # prin(wirehouse_manager)
+
+#     # batch=Batch.objects.all()
+    
+#     return render(request, 'monitir_realtime_tem_humidity.html', {'user':user})
 
 
 
