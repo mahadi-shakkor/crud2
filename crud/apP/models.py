@@ -7,10 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-class Person(models.Model):
-    name=models.CharField(max_length=100)
-    age=models.IntegerField()
-    
+
 class AgriculturalOfficer(models.Model):
     aid = models.OneToOneField('User', models.DO_NOTHING, db_column='AID', primary_key=True)  # Field name made lowercase.
     region = models.CharField(db_column='Region', max_length=255, blank=True, null=True)  # Field name made lowercase.
@@ -107,6 +104,7 @@ class Batch(models.Model):
     hid = models.ForeignKey('Harvest', models.DO_NOTHING, db_column='HID', blank=True, null=True)  # Field name made lowercase.
     sell = models.IntegerField(db_column='SELL')  # Field name made lowercase.
     store = models.IntegerField(db_column='STORE')  # Field name made lowercase.
+    status = models.CharField(max_length=10, blank=True, null=True)
 
     class Meta:
         managed = False

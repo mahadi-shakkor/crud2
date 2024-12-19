@@ -47,16 +47,36 @@ def index(request):
 
 
 def product_batch_buy(request):
+    userid = request.GET.get('userid')
+    # products = Product.objects.all()
+    # users = User.objects.all()  
+    
+    try:
+        user = User.objects.get(userid=userid)
+    except User.DoesNotExist:
+        # Handle the case where the user doesn't exist (optional)
+        user = None
+
     batch =  Batch.objects.filter(sell=True)
+
 
 
  
     
-    return render(request, 'product_batch_buy.html',{'batch':batch})
+    return render(request, 'product_batch_buy.html',{'batch':batch,'user':user})
 
 
 def buy_batch(request, b_number):
+
+
+
+
     batch = get_object_or_404(Batch, b_number=b_number)
+    batch.status="sold"
+    batch.sell=False
+    batch.save()
+    # PurchaseRequest.objects.create()
+
 
 
     
